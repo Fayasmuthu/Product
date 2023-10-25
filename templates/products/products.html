@@ -1,5 +1,6 @@
 {% extends "partials/fashion/base.html" %}
 {% load static %}
+
 {% load tz %}  {# Load the timezone template tags #}
 {% get_current_timezone as TIME_ZONE %}  {# Get the current timezone #}
 {% block title %}Product{% endblock %}
@@ -81,7 +82,7 @@
                                         <ul class="sidebar-categories scrollspy morelist clearfix">
                                             <li class="lvl1 sub-level more-item"><a href="{% url "products:products" %}" class="site-nav">All</a>
                                             {% for category in categories %}
-                                            <li class="lvl1 sub-level more-item"><a href="#" class="site-nav">{{ category.title }}</a>
+                                            <li class="lvl1 sub-level more-item"><a href="#;" class="site-nav">{{ category.title }}</a>
                                                 {% if category.category.all %}
                                                 <ul class="sublinks">
                                                     {% for subcategory in category.category.all %}
@@ -93,18 +94,7 @@
                                                 </ul>
                                                 {% endif %}
                                             </li>
-                                            {% comment %} <li class="lvl1 sub-level more-item"><a href="#;" class="site-nav">Jewellery</a>
-                                                <ul class="sublinks">
-                                                    <li class="lvl2"><a href="#" class="site-nav">Ring <span class="count">(12)</span></a></li>
-                                                    <li class="lvl2"><a href="#" class="site-nav">Neckalses <span class="count">(15)</span></a></li>
-                                                    <li class="lvl2"><a href="#" class="site-nav">Eaarings <span class="count">(18)</span></a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="lvl1 more-item"><a href="#" class="site-nav">Accessories <span class="count">(14)</span></a></li>
-                                            <li class="lvl1 more-item"><a href="#" class="site-nav">Shoes <span class="count">(18)</span></a></li>
-                                            <li class="lvl1 more-item"><a href="#" class="site-nav">Electronic <span class="count">(22)</span></a></li>
-                                            <li class="lvl1 more-item"><a href="#" class="site-nav">Cosmetics <span class="count">(27)</span></a></li> {% endcomment %}
-                                            {% endfor %}
+                                             {% endfor %}
                                         </ul>
                                     </div>
                                 </div>
@@ -122,56 +112,50 @@
                                 </div>
                                 <!--End Price Filter-->
                                 <!--Color Swatches-->
-                                {% comment %} <div class="sidebar-widget filterBox filter-widget">
+                                 <div class="sidebar-widget filterBox filter-widget">
                                     <div class="widget-title"><h2>Color</h2></div>
                                     <div class="widget-content filter-color filterDD">
                                         <ul class="swacth-list swatches d-flex-center clearfix pt-0">
-                                            <li class="swatch large radius available active"><img src="{% static 'assets/images/products/swatches/blue-red.jpg' %}" alt="image" width="70" height="70" data-bs-toggle="tooltip" data-bs-placement="top" title="Blue" /></li>
-                                            <li class="swatch large radius available"><img src="{% static 'assets/images/products/swatches/blue-red.jpg' %}" alt="image" width="70" height="70" data-bs-toggle="tooltip" data-bs-placement="top" title="Black" /></li>
-                                            <li class="swatch large radius available"><img src="{% static 'assets/images/products/swatches/blue-red.jpg' %}" alt="image" width="70" height="70" data-bs-toggle="tooltip" data-bs-placement="top" title="Pink" /></li>
-                                            <li class="swatch large radius available"><img src="{% static 'assets/images/products/swatches/blue-red.jpg' %}" alt="image" width="70" height="70" data-bs-toggle="tooltip" data-bs-placement="top" title="Red" /></li>
-                                            <li class="swatch large radius available black"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="Black"></span></li>
-                                            <li class="swatch large radius available red"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="Red"></span></li>
-                                            <li class="swatch large radius available blue"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="Blue"></span></li>
-                                            <li class="swatch large radius available pink"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="Pink"></span></li>
-                                            <li class="swatch large radius available gray"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="Gray"></span></li>
-                                            <li class="swatch large radius available green"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="Green"></span></li>
-                                            <li class="swatch large radius available orange"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="Orange"></span></li>
-                                            <li class="swatch large radius soldout yellow"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="Yellow"></span></li>
+                                            {% for color in colors %}
+                                            <a href="{% url  'products:products' %}?color={{color.name}}"><li class="swatch large radius available {{color.name|lower}}"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="{{color.name}}"></span></li></a>
+                                            {% endfor %}
+                                           
                                         </ul>
                                     </div>
-                                </div> {% endcomment %}
+                                </div> 
                                 <!--End Color Swatches-->
                                 <!--Size Swatches-->
-                                {% comment %} <div class="sidebar-widget filterBox filter-widget">
+                                 <div class="sidebar-widget filterBox filter-widget">
                                     <div class="widget-title"><h2>Size</h2></div>
                                     <div class="widget-content filter-size filterDD">
                                         <ul class="swacth-list size-swatches d-flex-center clearfix">
-                                            <li class="swatch large radius soldout"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="XS">XS</span></li>
-                                            <li class="swatch large radius available"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="S">S</span></li>
-                                            <li class="swatch large radius available"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="M">M</span></li>
-                                            <li class="swatch large radius available"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="L">L</span></li>
-                                            <li class="swatch large radius available"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="X">X</span></li>
-                                            <li class="swatch large radius available active"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="XL">XL</span></li>
-                                            <li class="swatch large radius available"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="XLL">XLL</span></li>
-                                            <li class="swatch large radius available"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="XXL">XXL</span></li>
-                                            <li class="swatch large radius available"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="25">25</span></li>
-                                            <li class="swatch large radius available"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="35">35</span></li>
-                                            <li class="swatch large radius available"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="40">40</span></li>
+                                        {% for size in sizes %}
+                                            <li class="swatch large radius available">
+                                                <a href="?size={{size.title}}" class="{% if selected_size == size.title %}selected{% endif %}">
+                                                    <span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ size.title }}">{{ size.title }}</span>
+                                                </a>
+                                            </li>
+                                        {% endfor %}
                                         </ul>
                                     </div>
-                                </div> {% endcomment %}
+                                </div> 
                                 <!--End Size Swatches-->
                                 <!--Product Brands-->
                                 <div class="sidebar-widget filterBox filter-widget brand-filter">
                                     <div class="widget-title"><h2>Brands</h2></div>
+                                    <form action="" method="get">
                                     <div class="widget-content filterDD">
                                         <ul class="clearfix">
-                                            <li><input type="checkbox" value="avone" id="avone"><label for="avone"><span></span>Avone</label></li>
-                                            <li><input type="checkbox" value="diva" id="diva"><label for="diva"><span></span>Diva</label></li>
-                                            <li><input type="checkbox" value="optimal" id="optimal"><label for="optimal"><span></span>Optimal</label></li>
+                                            {% for brand in brands %}
+                                            <li><input type="checkbox" value="{{brand.name}}" id="{{brand.name}}" name="brand">
+                                                <label for="{{brand.name}}"><span></span>{{brand.name}}</label></li>
+                                            {% endfor %}
+                                            {% comment %} <li><input type="checkbox" value="diva" id="diva"><label for="diva"><span></span>Diva</label></li>
+                                            <li><input type="checkbox" value="optimal" id="optimal"><label for="optimal"><span></span>Optimal</label></li> {% endcomment %}
                                         </ul>
                                     </div>
+                                    <div class=" text-right"><button type="submit" class="btn btn-sm">filter</button></div>
+                                    </form>
                                 </div>
                                 <!--End Product Brands-->
                                 <!--Product Tags-->
@@ -179,8 +163,10 @@
                                     <div class="widget-title"><h2>Product Tags</h2></div>
                                     <div class="widget-content filterDD">
                                         <ul class="tags-list product-tags d-flex-wrap clearfix">
-                                            <li class="item active"><a class="rounded-5" href="#">Women</a></li>
-                                            <li class="item"><a class="rounded-5" href="#">Shoes</a></li>
+                                            {% for p_tag in product_tag %}
+                                            <li class="item"><a class="rounded-5" href="{% url  'products:products' %}?tag={{p_tag.name}}">{{p_tag.name}}</a></li>
+                                            {% endfor %}
+                                            {% comment %} <li class="item"><a class="rounded-5" href="#">Shoes</a></li>
                                             <li class="item"><a class="rounded-5" href="#">Beauty</a></li>
                                             <li class="item"><a class="rounded-5" href="#">Accessories</a></li>
                                             <li class="item"><a class="rounded-5" href="#">$100 - $400</a></li>
@@ -189,7 +175,7 @@
                                             <li class="item"><a class="rounded-5" href="#">Blue</a></li>
                                             <li class="item"><a class="rounded-5" href="#">Red</a></li>
                                             <li class="item"><a class="rounded-5" href="#">M</a></li>
-                                            <li class="item"><a class="rounded-5" href="#">XS</a></li>
+                                            <li class="item"><a class="rounded-5" href="#">XS</a></li> {% endcomment %}
                                         </ul>
                                         <span class="btn btn-sm brd-link btnview">View all</span> 
                                     </div>
@@ -217,7 +203,7 @@
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4 col-md-4 col-lg-4 text-center product-count order-0 order-md-1 mb-3 mb-sm-0">
-                                        <span class="toolbar-product-count">Showing: 15 products</span>
+                                        <span class="toolbar-product-count">Showing:{{ products|length}}</span>
                                     </div>
                                     <div class="col-8 col-sm-6 col-md-4 col-lg-4 text-right filters-toolbar-item d-flex justify-content-end order-2 order-sm-2">
                                         <div class="filters-item d-flex align-items-center">

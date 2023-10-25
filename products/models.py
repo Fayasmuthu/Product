@@ -1,5 +1,8 @@
 from django.db import models
 from tinymce.models import HTMLField
+from django import template
+
+register = template.Library()
 
 
 # Create your models here.
@@ -47,13 +50,12 @@ class Product(models.Model):
 class cor(models.Model):
     name=models.CharField(max_length=12)
 
-
 # -----------second---------
 
 class Categorys(models.Model):
     title =models.CharField(max_length=100)
     slug = models.SlugField(max_length=100,unique=True)
-    image =models.ImageField(upload_to='category')
+    
     
     class Meta:
         ordering = ('id',)
@@ -67,8 +69,7 @@ class SubsCategory(models.Model):
     Category= models.ForeignKey(Categorys,on_delete=models.CASCADE,related_name='category')
     title =models.CharField(max_length=100)
     slug = models.SlugField(max_length=100,unique=True)
-    vendor = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='subcategory')
+  
 
     class Meta:
         ordering = ('id',)
@@ -78,6 +79,50 @@ class SubsCategory(models.Model):
     def __str__(self):
         return str(self.title)
 
+
+    
+class Filter_Price(models.Model):
+    FILTER_PRICE =(
+        ('1000 TO 10000','1000 TO 10000'),
+        ('10000 TO 20000','10000 TO 20000'),
+        ('20000 TO 30000','20000 TO 30000'),
+        ('30000 TO 40000','30000 TO 40000'),
+        ('40000 TO 50000','40000 TO 50000'),
+    )
+    price=models.CharField(choices=FILTER_PRICE,max_length=600)
+
+    def __str__(self):
+        return self.price
+    
+class Color(models.Model):
+    name=models.CharField(max_length=200)
+    code =models.CharField(max_length=60)
+
+    def __str__(self):
+        return self.name
+
+class Size(models.Model):
+    title =models.CharField(max_length=50)
+    available =models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.title
+
+    def __str__(self):
+        return str(self.title)
+
+class Brand(models.Model):
+    name=models.CharField(max_length=100)
+    
+
+    def __str__(self):
+        return self.name
+
+class Product_tag(models.Model):
+    name =models.CharField(max_length=100,unique=True)
+
+    def __str__(self):
+        return self.name
 
 class Product1(models.Model):
     subscategory =models.ForeignKey(SubsCategory,on_delete=models.CASCADE,related_name='subscategory')
@@ -89,11 +134,19 @@ class Product1(models.Model):
     image = models.ImageField(upload_to='products/')
     image2 = models.ImageField(upload_to='products/')
     sale_end_date = models.DateField()
+    price=models.ForeignKey(Filter_Price,on_delete=models.CASCADE,related_name='filter_price')
+    color=models.ForeignKey(Color,on_delete=models.CASCADE,related_name='color')
+    size = models.ManyToManyField(Size) 
+    available = models.BooleanField(default=True)
+    brand =models.ForeignKey(Brand,on_delete=models.CASCADE,related_name='brand')
+    products_tag=models.ForeignKey(Product_tag,on_delete=models.CASCADE,related_name='p_tag')
     # You might have additional fields like reviews and colors.
 
     def is_on_sale(self):
         from django.utils import timezone
         return self.sale_end_date > timezone.now()
+    
+
     
     class Meta:
         ordering = ('id',)

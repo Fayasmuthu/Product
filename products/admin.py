@@ -1,6 +1,8 @@
 from django.contrib import admin
-from .models import Category, SubCategory, Product,Product1,Categorys,SubsCategory
-
+from .models import (
+    Category, SubCategory, Product, Product1, Categorys, SubsCategory,
+    Size, Filter_Price, Color, Brand, Product_tag
+)
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('title',)
@@ -37,3 +39,9 @@ class Product1Admin(admin.ModelAdmin):
     list_editable = ('sale_price', 'sale_end_date')
 
 admin.site.register(Product1, Product1Admin)
+admin.site.register(Filter_Price)
+admin.site.register(Color)
+
+admin.site.register(Size)
+admin.site.register(Brand)
+admin.site.register(Product_tag)

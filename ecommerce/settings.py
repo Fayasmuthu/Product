@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     "admin_interface",
     "colorfield",
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,8 +44,8 @@ INSTALLED_APPS = [
     'orders',
     'products',
     'main',
-
     'tinymce',
+ 
 
 ]
 
@@ -72,6 +73,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+             
         },
     },
 ]
