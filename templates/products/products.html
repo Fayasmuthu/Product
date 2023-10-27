@@ -86,10 +86,12 @@
                                                 {% if category.category.all %}
                                                 <ul class="sublinks">
                                                     {% for subcategory in category.category.all %}
-                                                    <li class="lvl2 sub-level sub-sub-level"><a href="{% url  'products:products' %}?q={{subcategory.slug}}" class="site-nav" >{{ subcategory.title }}</a></li>  
-                                                    {% comment %} value="{{ subcategory.id }}" {% if request.GET.subcategory == subcategory.id %}selected{% endif %} {% endcomment %}
-                                                    {% comment %} <li class="lvl2"><a href="#" class="site-nav">Women <span class="count">(14)</span></a></li>
-                                                    <li class="lvl2"><a href="#" class="site-nav">Child <span class="count">(26)</span></a></li> {% endcomment %}
+                                                    <li class="lvl2  "><a href="{% url  'products:products' %}?q={{subcategory.slug}}" class="site-nav" >
+                                                        {{ subcategory.title }}
+                                                       
+                                                        <span class="count">({{subcategory.get_product_count}})</span>
+                                                      
+                                                    </a></li> 
                                                     {% endfor %}
                                                 </ul>
                                                 {% endif %}
@@ -98,15 +100,16 @@
                                         </ul>
                                     </div>
                                 </div>
+                               
                                 <!--Categories-->
                                 <!--Price Filter-->
                                 <div class="sidebar-widget filterBox filter-widget">
                                     <div class="widget-title"><h2>Price</h2></div>
-                                    <form class="widget-content price-filter filterDD" action="#" method="post">
+                                    <form class="widget-content price-filter filterDD" action="#" method="get">
                                         <div id="slider-range" class="mt-2"></div>
-                                        <div class="row">
-                                            <div class="col-6"><input id="amount" type="text" /></div>
-                                            <div class="col-6 text-right"><button class="btn btn-sm">filter</button></div>
+                                        <div class="row">             
+                                            <div class="col-6"><input id="amount" name="amount" type="text" /></div>
+                                            <div class="col-6 text-right"><button class="btn btn-sm" >filter</button></div>
                                         </div>
                                     </form>
                                 </div>
@@ -117,7 +120,11 @@
                                     <div class="widget-content filter-color filterDD">
                                         <ul class="swacth-list swatches d-flex-center clearfix pt-0">
                                             {% for color in colors %}
-                                            <a href="{% url  'products:products' %}?color={{color.name}}"><li class="swatch large radius available {{color.name|lower}}"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="{{color.name}}"></span></li></a>
+                                            <a href="{% url  'products:products' %}?color={{color.name}}">
+                                                <li class="swatch large radius available " style="background-color: {{color.code}};">
+                                                  <span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="{{color.productimage.name}}"></span>
+                                                </li>
+                                            </a>
                                             {% endfor %}
                                            
                                         </ul>
@@ -132,7 +139,7 @@
                                         {% for size in sizes %}
                                             <li class="swatch large radius available">
                                                 <a href="?size={{size.title}}" class="{% if selected_size == size.title %}selected{% endif %}">
-                                                    <span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ size.title }}">{{ size.title }}</span>
+                                                    <span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ size.title }}">{{ size.code }}</span>
                                                 </a>
                                             </li>
                                         {% endfor %}
@@ -246,15 +253,15 @@
                                                 <a href="product-layout1.html" class="product-img rounded-0">
                                                 <img class="rounded-0 blur-up lazyload" src="{{ product.image.url }}" alt="Product" title="Product" width="625" height="808" />
                                                  <!-- Hover Image -->
-                                                 <img class="hover rounded-0 blur-up lazyload" data-src="{{ product.image2.url }}" src="{{ product.image2.url }}" alt="Product" title="{{ product.name }}" width="625" height="808" />
+                                                 {% comment %} <img class="hover rounded-0 blur-up lazyload" data-src="{{ product.image2.url }}" src="{{ product.image2.url }}" alt="Product" title="{{ product.name }}" width="625" height="808" /> {% endcomment %}
                                                  <!-- End Hover Image --></a>
                                                 <!-- End Product Image -->
 
                                                 <!-- Product label -->
                                                 <div class="product-labels">
-                                                    {% if product.sale_end_date|timezone:TIME_ZONE > now %}
-                                                    <span class="lbl on-sale">Sale</span>
-                                                    {% endif %}
+                                                    
+                                                    <span class="lbl "style="background: {{ product.products_tag.background_color.code}};">{{ product.products_tag.name}}</span>
+                                                   
                                                 </div>
                                                 <!-- End Product label -->
                                                 <!--Countdown Timer-->
@@ -285,7 +292,7 @@
                                             <!-- Start Product Details -->
                                             <div class="product-details text-center">
                                                 <!--Product Vendor-->
-                                                <div class="product-vendor">{{ product.vendor }}</div>
+                                                <div class="product-vendor">{{ product.manufacture }}</div>
                                                 <!--End Product Vendor-->
                                                 <!-- Product Name -->
                                                 <div class="product-name">
@@ -294,7 +301,7 @@
                                                 <!-- End Product Name -->
                                                 <!-- Product Price -->
                                                 <div class="product-price">
-                                                    <span class="price old-price">${{ product.original_price }}</span><span class="price">${{ product.sale_price }}</span>
+                                                    <span class="price old-price">${{ product.get_original_price }}</span><span class="price">${{ product.get_sale_price }}</span>
                                                 </div>
                                                 <!-- End Product Price -->
                                                 <!-- Product Review -->
@@ -307,12 +314,12 @@
                                                 <p class="sort-desc hidden">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage...</p>
                                                 <!--End Sort Description-->
                                                 <!--Color Variant -->
-                                                {% comment %} <ul class="variants-clr swatches">
-                                                    <li class="swatch medium radius"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="Navy"><img src="{% static 'assets/images/products/product1.jpg' %}" alt="img" width="625" height="808"></span></li>
-                                                    <li class="swatch medium radius"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="Green"><img src="{% static 'assets/images/products/product1-1.jpg' %}" alt="img" width="625" height="808"></span></li>
-                                                    <li class="swatch medium radius"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="Gray"><img src="{% static 'assets/images/products/product1-2.jpg' %}" alt="img" width="625" height="808"></span></li>
-                                                    <li class="swatch medium radius"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="Orange"><img src="{% static 'assets/images/products/product1-3.jpg' %}" alt="img" width="625" height="808"></span></li>
-                                                </ul> {% endcomment %}
+                                                <ul class="variants-clr swatches">
+                                                    {% for i in product.get_images %}
+                                                    <li class="swatch medium radius"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="{{i.color}}"><img src="{{i.image.url}}" alt="img" width="625" height="808"></span></li>
+                                                    {% endfor %}
+                                                   
+                                                </ul> 
                                                 <!-- End Variant -->
                                                 <!-- Product Button -->
                                                 <div class="button-action hidden">

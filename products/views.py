@@ -22,14 +22,13 @@ class SubsCategoryView(ListView):
 
 
 
-from .models import Product1,Filter_Price,Color,Size,Brand,Product_tag
+from .models import Product1,Color,Size,Brand,Product_tag
 from django.utils import timezone
 
 # SHOP
 def shop(request):
     categories = Categorys.objects.all()  
     subcategory = SubsCategory.objects.all()
-    filter_price =Filter_Price.objects.all()
     colors=Color.objects.all()
     sizes =Size.objects.all()
     brands =Brand.objects.all()
@@ -37,7 +36,8 @@ def shop(request):
     
 
     q= request.GET.get('q')
-    selected_price =request.GET.get('price')
+    selected_price =request.GET.get('amount', '')
+    print('selected_price=',selected_price)
     selected_color=request.GET.get('color')
     selected_size =request.GET.get('size')
     selected_brand =request.GET.getlist('brand')
@@ -46,24 +46,30 @@ def shop(request):
     
     if q :
         instance = SubsCategory.objects.get(slug=q)
-        products = products.filter(subscategory=instance)
+        products = products.filter(p_subscategory=instance)
 
     if selected_color:
-        products= products.filter(color__name=selected_color)
+        products= products.filter(productimage__color__name=selected_color)
 
     if selected_size :
-        products =products.filter(size__title=selected_size)
+        products =products.filter(avilablesize__size__title=selected_size)
     
     if selected_price :
-        products =products.filter(price__price=selected_price)
-    
+        # products =products.filter(price__price=selected_price)
+        selected_price = selected_price.replace('$','')
+        print('selected_pric222e=',selected_price)
+        try:
+            min_amount, max_amount = map(int,selected_price.split('-'))
+            print('min_amount=',min_amount)
+            products=products.filter(avilablesize__sale_price__gte=min_amount,avilablesize__sale_price__lte=max_amount).distinct()
+            print('products=',products)
+        except ValueError:
+            print("ValueError")
     if selected_brand :
         products =products.filter(brand__name__in=selected_brand)
 
     if selected_tag :
         products =products.filter(products_tag__name=selected_tag)
-
-    
 
 
     current_time = timezone.now()
@@ -73,12 +79,12 @@ def shop(request):
                'current_time': current_time,
                'categories': categories,
                'subcategory':subcategory,
-               'filter_price':filter_price,
                'colors':colors,
                'sizes': sizes,
                'brands':brands,
                'product_tag':product_tag,
                'selected_size': selected_size, 
+ 
             
                }
     return render(request, "products/products.html", context)
