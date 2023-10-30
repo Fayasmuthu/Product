@@ -42,6 +42,7 @@ def shop(request):
     selected_size =request.GET.get('size')
     selected_brand =request.GET.getlist('brand')
     selected_tag =request.GET.get('tag')
+    
     products = Product1.objects.all()
     
     if q :
@@ -84,6 +85,7 @@ def shop(request):
                'brands':brands,
                'product_tag':product_tag,
                'selected_size': selected_size, 
+               'stars': range(1, 6)
  
             
                }

@@ -30,10 +30,6 @@ class CategorysAdmin(admin.ModelAdmin):
     list_display = ('title',)
     prepopulated_fields = {'slug': ('title',)}
 
-# @admin.register(SubsCategory)
-# class SubsCategoryAdmin(admin.ModelAdmin):
-#     list_display = ('title', 'slug','Category')  # Assuming you have a 'category' ForeignKey field in SubCategory model
-#     prepopulated_fields = {'slug': ('title',)}
 
 @admin.register(SubsCategory)
 class SubsCategoryAdmin(admin.ModelAdmin):
@@ -101,6 +97,8 @@ class Product1Admin(admin.ModelAdmin):
 
     image_preview.short_description = 'Image Preview'
 
+
+
 @admin.register(Size)
 class SizeAdmin(admin.ModelAdmin):
     list_display = ('title', 'code')
@@ -116,4 +114,9 @@ class AvilableSizeAdmin(admin.ModelAdmin):
 
 @admin.register(Color)
 class ColorAdmin(admin.ModelAdmin):
-    list_display = ('name','code')
+    list_display = ('name','code','color_bg')
+
+    def color_bg(self,obj):
+        return mark_safe('<div style="width:30px; height:30px; background-color:%s"></div>' % (obj.code))
+       
+    color_bg.short_description = 'color_bg'

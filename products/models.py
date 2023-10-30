@@ -6,6 +6,7 @@ from django.core.validators import MaxValueValidator
 from django.template.defaultfilters import slugify
 from django.urls import reverse
 
+
 register = template.Library()
 # Create your models here.
 class Category(models.Model):
@@ -93,6 +94,8 @@ class Color(models.Model):
 
     def __str__(self):
         return self.name
+    
+
 
 
 class Size(models.Model):
@@ -138,10 +141,10 @@ class Product1(models.Model):
     description = models.TextField()
     vendor = models.CharField(max_length=255)
     image = models.ImageField(upload_to='products/')
-    sale_end_date = models.DateField()
+    sale_end_date = models.DateField(blank=True,null=True)
     available = models.BooleanField(default=True) 
     brand =models.ForeignKey(Brand,on_delete=models.CASCADE,related_name='brand')
-    products_tag=models.ForeignKey(Product_tag,on_delete=models.CASCADE,related_name='p_tag')
+    products_tag=models.ForeignKey(Product_tag,on_delete=models.CASCADE,related_name='p_tag',blank=True,null=True)
     rating =models.PositiveIntegerField(
         validators=[MaxValueValidator(5)],default=5,verbose_name="Product Rating(max:5)"
     )
@@ -199,7 +202,7 @@ class Product1(models.Model):
         return reverse("products:product_detail", kwargs={"pk": self.pk})
 
     def related_products(self):
-        return Product1.objects.filter(subcategory__in=self.p_subscategory.all()).exclude(pk=self.pk).distinct()[0:12]
+        return Product1.objects.filter(p_subscategory__in=self.p_subscategory.all()).exclude(pk=self.pk).distinct()[0:12]
 
     def __str__(self):
         return self.name
@@ -250,7 +253,20 @@ class ProductAdditional(models.Model):
 
 class AvilableSize(models.Model):
     product=models.ForeignKey(Product1,on_delete=models.CASCADE)
-    size =models.ForeignKey('products.Size',on_delete=models.CASCADE)
+    size =models.ForeignKey('products.Size',on_delete=models.CASCADE,blank=True,null=True)
+    sale_price =models.FloatField()
+    original_price=models.FloatField(blank=True, null=True)
+    opening_stock=models.IntegerField()
+    minimum_order_qty=models.IntegerField()
+
+    class Meta:
+        ordering = ("sale_price",)
+        verbose_name = ("Available Size")
+        verbose_name_plural = ("Available Sizes")
+
+
+class AvilableAmount(models.Model):
+    product=models.ForeignKey(Product1,on_delete=models.CASCADE)
     sale_price =models.FloatField()
     original_price=models.FloatField(blank=True, null=True)
     opening_stock=models.IntegerField()
