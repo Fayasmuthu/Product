@@ -1,5 +1,7 @@
 from django.contrib import admin
-from products.models import Product1, Categorys, SubsCategory,ProductFeature,ProductAdditional
+from products.models import ( Product1, Categorys, SubsCategory,ProductFeature,ProductAdditional,
+                             Countdown,Availability_sold
+                             )
 from .models import (
     Category, SubCategory, Product, 
     Size, Color, Brand, Product_tag,ProductImage,
@@ -63,6 +65,17 @@ class ProductAdditionalInline(admin.TabularInline):
     extra = 0
     max_num =1
 
+class CountdownInline(admin.TabularInline):
+    model=Countdown
+    extra =0
+    max_num=1
+
+class Availability_soldInline(admin.TabularInline):
+    model=Availability_sold
+    extra =0
+    max_num=1
+
+
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug')
@@ -82,7 +95,8 @@ class Product1Admin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     list_filter = ('p_subscategory', 'name')
     autocomplete_fields = ("p_subscategory","brand")
-    inlines = [ProductAdditionalInline,ProductFeatureInline,ProductImageInline,AvailableSizeInline]
+    inlines = [ProductAdditionalInline,ProductFeatureInline,ProductImageInline,AvailableSizeInline,
+               CountdownInline,Availability_soldInline]
     search_fields = (
         "name",
         'p_subscategory__name',

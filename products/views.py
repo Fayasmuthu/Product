@@ -42,6 +42,8 @@ def shop(request):
     selected_size =request.GET.get('size')
     selected_brand =request.GET.getlist('brand')
     selected_tag =request.GET.get('tag')
+    azid = request.GET.get('SortBy')
+    category=request.GET.get('Category')
     
     products = Product1.objects.all()
     
@@ -49,11 +51,14 @@ def shop(request):
         instance = SubsCategory.objects.get(slug=q)
         products = products.filter(p_subscategory=instance)
 
+    if category :
+        products = products.filter(p_subscategory__Category__slug=category)
+
     if selected_color:
         products= products.filter(productimage__color__name=selected_color)
 
     if selected_size :
-        products =products.filter(avilablesize__size__title=selected_size)
+        products =products.filter(avilablesize__size__code=selected_size)
     
     if selected_price :
         # products =products.filter(price__price=selected_price)
@@ -71,6 +76,15 @@ def shop(request):
 
     if selected_tag :
         products =products.filter(products_tag__name=selected_tag)
+    
+
+
+    if azid == 'name-ascending':
+        products = products.order_by('name')
+
+    if azid == 'name-descending':
+        products = products.order_by('-name')
+        
 
 
     current_time = timezone.now()
@@ -78,15 +92,46 @@ def shop(request):
     context = {"is_shop": True,
                'products': products,
                'current_time': current_time,
-               'categories': categories,
-               'subcategory':subcategory,
-               'colors':colors,
-               'sizes': sizes,
-               'brands':brands,
-               'product_tag':product_tag,
-               'selected_size': selected_size, 
-               'stars': range(1, 6)
- 
-            
+               'selected_size': selected_size,
+               'stars': range(1, 6),
+                'applied_filters': {
+                    'categories': categories,
+                    'subcategory':subcategory,
+                    'colors':colors,
+                    'sizes': sizes,
+                    'brands':brands,
+                    'product_tag':product_tag,
+                }
+           
                }
     return render(request, "products/products.html", context)
+
+def home(request):
+    categories = Categorys.objects.all()
+    subcategories = SubsCategory.objects.filter(is_popular=True)
+    best_sellers=Product1.objects.filter(is_best_seller=True)[:8]
+    new_arrivals=Product1.objects.filter(is_new_arrival=True)[:8]
+    top_rated=Product1.objects.filter(is_top_rated=True)[:8]
+    context ={
+        'categories':categories,
+        'subcategories':subcategories,
+        'best_sellers':best_sellers,
+        'new_arrivals':new_arrivals,
+        'top_rated':top_rated,
+        'stars': range(1, 6)
+        
+    }
+    return render(request,"products/index.html",context)
+
+
+class products_detailsViews(ListView):
+    model = Product1
+    template_name = 'products/product-layout1.html'
+    context_object_name = 'products'
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['request'] = self.request
+        return context

@@ -5,6 +5,7 @@ from colorfield.fields import ColorField
 from django.core.validators import MaxValueValidator
 from django.template.defaultfilters import slugify
 from django.urls import reverse
+from django.utils import timezone
 
 
 register = template.Library()
@@ -25,6 +26,7 @@ class SubCategory(models.Model):
     Category= models.ForeignKey(Category,on_delete=models.CASCADE,related_name='category')
     title =models.CharField(max_length=100)
     slug = models.SlugField(max_length=100)
+
 
     class Meta:
         ordering = ('id',)
@@ -58,6 +60,7 @@ class cor(models.Model):
 class Categorys(models.Model):
     title =models.CharField(max_length=100)
     slug = models.SlugField(max_length=100,unique=True)
+    image =models.ImageField(upload_to="category/",blank=True,null=True)  
     
     
     class Meta:
@@ -65,6 +68,8 @@ class Categorys(models.Model):
         verbose_name = ('Category')
         verbose_name_plural = ('Category')
 
+    def get_subcategories(self):
+        return SubsCategory.objects.filter(category=self)
     def __str__(self):
         return str(self.title)
 
@@ -73,6 +78,7 @@ class SubsCategory(models.Model):
     Category= models.ForeignKey(Categorys,on_delete=models.CASCADE,related_name='category')
     title =models.CharField(max_length=100)
     slug = models.SlugField(max_length=100,unique=True)
+    image =models.ImageField(upload_to="sub/")
     is_popular = models.BooleanField(default=True)
 
     class Meta:
@@ -135,21 +141,28 @@ class Product_tag(models.Model):
 
 
 class Product1(models.Model):
+    CONDITION=(('New','New'),('Old','Old'))
+    STOCK=(('IN STOCK','IN STOCK'),('OUT OF STOCK','OUT OF STOCK'))
+    STATUS=(('Publish','Publish'),('Draft','Draft'))
+
     p_subscategory =models.ForeignKey(SubsCategory,on_delete=models.CASCADE,related_name='subscategory')
     name = models.CharField(max_length=255)
     slug=models.SlugField(max_length=100)
     description = models.TextField()
     vendor = models.CharField(max_length=255)
     image = models.ImageField(upload_to='products/')
-    sale_end_date = models.DateField(blank=True,null=True)
+    # sale_end_date = models.DateField(blank=True,null=True)
     available = models.BooleanField(default=True) 
     brand =models.ForeignKey(Brand,on_delete=models.CASCADE,related_name='brand')
     products_tag=models.ForeignKey(Product_tag,on_delete=models.CASCADE,related_name='p_tag',blank=True,null=True)
     rating =models.PositiveIntegerField(
         validators=[MaxValueValidator(5)],default=5,verbose_name="Product Rating(max:5)"
     )
-    is_new_arrival = models.BooleanField(default=True)
+    condition=models.CharField(choices=CONDITION,max_length=200)
+    stock=models.CharField(choices=STOCK,max_length=200)
+    status=models.CharField(choices=STATUS,max_length=200)
     is_best_seller = models.BooleanField(default=True)
+    is_new_arrival = models.BooleanField(default=True)
     is_top_rated = models.BooleanField(default=True)
     # You might have additional fields like reviews and colors.
 
@@ -171,6 +184,8 @@ class Product1(models.Model):
         if not self.slug:
             self.slug = slugify(self.name)
         return super().save(*args, **kwargs)
+    
+  
     
     def get_images(self):
         return ProductImage.objects.filter(product=self)
@@ -199,19 +214,28 @@ class Product1(models.Model):
         return min([p.offer_percent() for p in self.get_sizes()])
 
     def get_absolute_url(self):
-        return reverse("products:product_detail", kwargs={"pk": self.pk})
+        return reverse("products:products_details", kwargs={"pk": self.pk})
 
     def related_products(self):
-        return Product1.objects.filter(p_subscategory__in=self.p_subscategory.all()).exclude(pk=self.pk).distinct()[0:12]
+        return Product1.objects.filter().exclude(pk=self.pk).distinct()[0:12]
+    
+    def get_Countdown(self):
+        return Countdown.objects.filter(product=self)
+    
+    # def is_on_sale(self):
+    #     return self.offer_count().filter(sale_end_date__gt=timezone.now()).exists()
+
+    def get_availsold(self):
+        return Availability_sold.objects.filter(product=self)
 
     def __str__(self):
-        return self.name
+        return f"{self.brand}: {self.name}"
 
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product1, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='products')
+    image = models.ImageField(upload_to='products',blank=True,null=True)
     color = models.ForeignKey('products.Color', on_delete=models.CASCADE,blank=True,null=True)
 
     class Meta:
@@ -254,6 +278,7 @@ class ProductAdditional(models.Model):
 class AvilableSize(models.Model):
     product=models.ForeignKey(Product1,on_delete=models.CASCADE)
     size =models.ForeignKey('products.Size',on_delete=models.CASCADE,blank=True,null=True)
+    # color = models.ForeignKey('products.Color', on_delete=models.CASCADE,blank=True,null=True)
     sale_price =models.FloatField()
     original_price=models.FloatField(blank=True, null=True)
     opening_stock=models.IntegerField()
@@ -264,15 +289,32 @@ class AvilableSize(models.Model):
         verbose_name = ("Available Size")
         verbose_name_plural = ("Available Sizes")
 
+    def __str__(self):
+        return f"{self.color} / {self.size} - {self.sale_price}"
 
-class AvilableAmount(models.Model):
+    # def save(self, *args, **kwargs):
+    #     if self.original_price is None:
+    #         self.original_price = self.sale_price
+    #     super().save(*args, **kwargs)
+
+
+class Countdown(models.Model):
     product=models.ForeignKey(Product1,on_delete=models.CASCADE)
-    sale_price =models.FloatField()
-    original_price=models.FloatField(blank=True, null=True)
-    opening_stock=models.IntegerField()
-    minimum_order_qty=models.IntegerField()
+    sale_end_date = models.DateField(blank=True,null=True)
 
     class Meta:
-        ordering = ("sale_price",)
-        verbose_name = ("Available Size")
-        verbose_name_plural = ("Available Sizes")
+        ordering = ("id",)
+        verbose_name = ("Offer Count")
+        verbose_name_plural = ("Offer Count")
+
+class Availability_sold(models.Model):
+    product=models.ForeignKey(Product1,on_delete=models.CASCADE)
+    availability_sold = models.PositiveIntegerField(blank=True,null=True)
+    availability_available = models.PositiveIntegerField(blank=True,null=True)
+    availability_progress = models.PositiveIntegerField(blank=True,null=True)
+
+    class Meta:
+        ordering = ("id",)
+        verbose_name = ("Offer Count")
+        verbose_name_plural = ("Offer Count")
+
