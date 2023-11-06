@@ -1,7 +1,9 @@
-from django.shortcuts import render,get_object_or_404
-from django.views.generic import ListView ,TemplateView 
+from django.shortcuts import render,get_object_or_404,redirect
+from django.views.generic import ListView ,TemplateView ,DetailView
 from django.views.generic.edit import FormView
 from .models import Product ,Categorys,SubsCategory
+from django.contrib.auth.decorators import login_required
+from cart.cart import Cart
  
 # Create your views here.
 
@@ -94,13 +96,14 @@ def shop(request):
                'current_time': current_time,
                'selected_size': selected_size,
                'stars': range(1, 6),
+               'product_tag':product_tag,
                 'applied_filters': {
                     'categories': categories,
                     'subcategory':subcategory,
                     'colors':colors,
                     'sizes': sizes,
                     'brands':brands,
-                    'product_tag':product_tag,
+                    
                 }
            
                }
@@ -124,14 +127,64 @@ def home(request):
     return render(request,"products/index.html",context)
 
 
-class products_detailsViews(ListView):
+class products_detailsViews(DetailView):
     model = Product1
     template_name = 'products/product-layout1.html'
-    context_object_name = 'products'
+    context_object_name = 'product'
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['request'] = self.request
+        # product = context['product']  # Assuming the product object is available in the context
+        # stars = range(1, product.rating + 1)  # Generating stars based on the product's rating
+        stars = range(1, 6)  # Generating stars based on the product's rating
+
+        context['stars'] = stars
+       
         return context
+    
+
+@login_required(login_url="/users/login")
+def cart_add(request, id):
+    cart = Cart(request)
+    product = Product1.objects.get(id=id)
+    cart.add(product=product)
+    return redirect("home")
+
+
+@login_required(login_url="/users/login")
+def item_clear(request, id):
+    cart = Cart(request)
+    product = Product1.objects.get(id=id)
+    cart.remove(product)
+    return redirect("cart_detail")
+
+
+@login_required(login_url="/users/login")
+def item_increment(request, id):
+    cart = Cart(request)
+    product = Product1.objects.get(id=id)
+    cart.add(product=product)
+    return redirect("cart_detail")
+
+
+@login_required(login_url="/users/login")
+def item_decrement(request, id):
+    cart = Cart(request)
+    product = Product1.objects.get(id=id)
+    cart.decrement(product=product)
+    return redirect("cart_detail")
+
+
+@login_required(login_url="/users/login")
+def cart_clear(request):
+    cart = Cart(request)
+    cart.clear()
+    return redirect("cart_detail")
+
+
+@login_required(login_url="/users/login")
+def cart_detail(request):
+    return render(request, 'cart/cart-style.html')

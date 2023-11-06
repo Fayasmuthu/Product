@@ -242,12 +242,13 @@
                     <div class="grid-products grid-view-items">
                         <div class="row col-row product-options row-cols-lg-4 row-cols-md-3 row-cols-sm-3 row-cols-2">
                             {% for product in products %}
+                           
                             <div class="item col-item">
                                 <div class="product-box">
                                     <!-- Start Product Image -->
                                     <div class="product-image">
                                         <!-- Start Product Image -->
-                                        <a href="{{ products.get_absolute_url}}" class="product-img rounded-0">
+                                        <a href="{{ product.get_absolute_url}}" class="product-img rounded-0">
                                         <img class="rounded-0 blur-up lazyload" src="{{ product.image.url }}" alt="Product" title="Product" width="625" height="808" />
                                             <!-- Hover Image -->
                                             {% comment %} <img class="hover rounded-0 blur-up lazyload" data-src="{{ product.image2.url }}" src="{{ product.image2.url }}" alt="Product" title="{{ product.name }}" width="625" height="808" /> {% endcomment %}
@@ -397,7 +398,7 @@
                             <form method="post" action="#" id="product-form-quickshop" class="product-form align-items-center">
                                 {% comment %} <!-- Product Info --> ###### {% endcomment %}
                                 <div class="row g-0 item mb-3">
-                                    <a class="col-4 product-image" href="{{ products.get_absolute_url}}"><img class="blur-up lazyload" data-src="{{product.image.url}}" src="{{product.image.url}}" alt="Product" title="Product" width="625" height="800" /></a>
+                                    <a class="col-4 product-image" href="{{ product.get_absolute_url}}"><img class="blur-up lazyload" data-src="{{product.image.url}}" src="{{product.image.url}}" alt="Product" title="Product" width="625" height="800" /></a>
                                     <div class="col-8 product-details">
                                         <div class="product-variant ps-3">
 

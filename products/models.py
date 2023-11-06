@@ -128,7 +128,7 @@ class Brand(models.Model):
 
 class Product_tag(models.Model):
     name =models.CharField(max_length=100,unique=True)
-    slug =models.SlugField()
+    slug =models.SlugField(unique=True)
     background_color=models.ForeignKey('products.Color',on_delete=models.CASCADE,blank=True, null=True)
 
     def save(self, *args, **kwargs):
@@ -191,7 +191,7 @@ class Product1(models.Model):
         return ProductImage.objects.filter(product=self)
 
     def get_additional(self):
-        return ProductAdditional.objects.filter(product=self)
+        return ProductAdditional.objects.filter(product=self).first()
     
     def get_features(self):
         return ProductFeature.objects.filter(product=self)
@@ -214,7 +214,7 @@ class Product1(models.Model):
         return min([p.offer_percent() for p in self.get_sizes()])
 
     def get_absolute_url(self):
-        return reverse("products:products_details", kwargs={"pk": self.pk})
+        return reverse("products:products_details", kwargs={"slug": self.slug})
 
     def related_products(self):
         return Product1.objects.filter().exclude(pk=self.pk).distinct()[0:12]
@@ -278,7 +278,7 @@ class ProductAdditional(models.Model):
 class AvilableSize(models.Model):
     product=models.ForeignKey(Product1,on_delete=models.CASCADE)
     size =models.ForeignKey('products.Size',on_delete=models.CASCADE,blank=True,null=True)
-    # color = models.ForeignKey('products.Color', on_delete=models.CASCADE,blank=True,null=True)
+    color = models.ForeignKey('products.Color', on_delete=models.CASCADE,blank=True,null=True)
     sale_price =models.FloatField()
     original_price=models.FloatField(blank=True, null=True)
     opening_stock=models.IntegerField()
@@ -292,10 +292,10 @@ class AvilableSize(models.Model):
     def __str__(self):
         return f"{self.color} / {self.size} - {self.sale_price}"
 
-    # def save(self, *args, **kwargs):
-    #     if self.original_price is None:
-    #         self.original_price = self.sale_price
-    #     super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        if self.original_price is None:
+            self.original_price = self.sale_price
+        super().save(*args, **kwargs)
 
 
 class Countdown(models.Model):

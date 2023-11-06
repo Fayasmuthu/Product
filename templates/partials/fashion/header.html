@@ -27,6 +27,7 @@
                                 <li><a href="{% url "products:category" %}" class="site-nav">Category</a></li> 
                                 <li><a href="{% url "products:subcategory" %}" class="site-nav">subcategory</a></li> 
                                 <li><a href="{{ product.get_absolute_url}}">Products-Details </a></li>
+                                <li><a href="{% url "products:cart_detail" %}">Products-Details </a></li>
                             </ul>
                         </li>
                     </ul>
