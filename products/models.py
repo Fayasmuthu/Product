@@ -150,7 +150,7 @@ class Product1(models.Model):
     slug=models.SlugField(max_length=100)
     description = models.TextField()
     vendor = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='products/')
+    # image = models.ImageField(upload_to='products/')
     # sale_end_date = models.DateField(blank=True,null=True)
     available = models.BooleanField(default=True) 
     brand =models.ForeignKey(Brand,on_delete=models.CASCADE,related_name='brand')
@@ -203,7 +203,7 @@ class Product1(models.Model):
         return AvilableSize.objects.filter(product=self)
 
     def get_sale_price(self):
-        return min([p.sale_price for p in self.get_sizes()])
+        return min([p.price for p in self.get_sizes()])
 
     def get_original_price(self):
         sizes = self.get_sizes()
@@ -235,6 +235,7 @@ class Product1(models.Model):
 class ProductImage(models.Model):
     product = models.ForeignKey(Product1, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
+    image1=models.ImageField(upload_to='products',blank=True,null=True)
     image = models.ImageField(upload_to='products',blank=True,null=True)
     color = models.ForeignKey('products.Color', on_delete=models.CASCADE,blank=True,null=True)
 
@@ -276,25 +277,25 @@ class ProductAdditional(models.Model):
 
 
 class AvilableSize(models.Model):
-    product=models.ForeignKey(Product1,on_delete=models.CASCADE)
+    product=models.ForeignKey(Product1,on_delete=models.CASCADE, related_name='available_sizes')
     size =models.ForeignKey('products.Size',on_delete=models.CASCADE,blank=True,null=True)
     color = models.ForeignKey('products.Color', on_delete=models.CASCADE,blank=True,null=True)
-    sale_price =models.FloatField()
+    price =models.DecimalField(max_digits=10, decimal_places=2) 
     original_price=models.FloatField(blank=True, null=True)
     opening_stock=models.IntegerField()
     minimum_order_qty=models.IntegerField()
 
     class Meta:
-        ordering = ("sale_price",)
+        ordering = ("price",)
         verbose_name = ("Available Size")
         verbose_name_plural = ("Available Sizes")
 
     def __str__(self):
-        return f"{self.color} / {self.size} - {self.sale_price}"
+        return f"{self.color} / {self.size} - {self.price}"
 
     def save(self, *args, **kwargs):
         if self.original_price is None:
-            self.original_price = self.sale_price
+            self.original_price = self.price
         super().save(*args, **kwargs)
 
 

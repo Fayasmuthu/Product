@@ -12,6 +12,11 @@ urlpatterns = [
     path('subcategory',views.SubsCategoryView.as_view(),name='subcategory'),
     path('details/<slug:slug>/',views.products_detailsViews.as_view(),name='products_details'),
 
+    #Account
+#     path('login',views.login, name="login"),
+#      path('logout',views.logout, name="logout"),
+#     path('register',views.register, name="register"),
+
     #Cart
     path('cart/add/<int:id>/', views.cart_add, name='cart_add'),
     path('cart/item_clear/<int:id>/', views.item_clear, name='item_clear'),

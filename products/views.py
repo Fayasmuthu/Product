@@ -4,6 +4,12 @@ from django.views.generic.edit import FormView
 from .models import Product ,Categorys,SubsCategory
 from django.contrib.auth.decorators import login_required
 from cart.cart import Cart
+from .models import Product1,Color,Size,Brand,Product_tag,AvilableSize
+from django.utils import timezone
+from django.db.models import Min
+from django.contrib.auth import authenticate,login,logout
+from django.contrib import messages
+
  
 # Create your views here.
 
@@ -24,8 +30,7 @@ class SubsCategoryView(ListView):
 
 
 
-from .models import Product1,Color,Size,Brand,Product_tag
-from django.utils import timezone
+
 
 # SHOP
 def shop(request):
@@ -60,7 +65,7 @@ def shop(request):
         products= products.filter(productimage__color__name=selected_color)
 
     if selected_size :
-        products =products.filter(avilablesize__size__code=selected_size)
+        products =products.filter(available_sizes__size__code=selected_size)
     
     if selected_price :
         # products =products.filter(price__price=selected_price)
@@ -68,9 +73,10 @@ def shop(request):
         print('selected_pric222e=',selected_price)
         try:
             min_amount, max_amount = map(int,selected_price.split('-'))
-            print('min_amount=',min_amount)
-            products=products.filter(avilablesize__sale_price__gte=min_amount,avilablesize__sale_price__lte=max_amount).distinct()
-            print('products=',products)
+            products=products.filter(available_sizes__price__gte=min_amount,
+                                     available_sizes__price__lte=max_amount
+                                     ).distinct()
+            
         except ValueError:
             print("ValueError")
     if selected_brand :
@@ -108,7 +114,7 @@ def shop(request):
            
                }
     return render(request, "products/products.html", context)
-
+#INDEX
 def home(request):
     categories = Categorys.objects.all()
     subcategories = SubsCategory.objects.filter(is_popular=True)
@@ -126,7 +132,7 @@ def home(request):
     }
     return render(request,"products/index.html",context)
 
-
+#PRODUCT_DETAIL
 class products_detailsViews(DetailView):
     model = Product1
     template_name = 'products/product-layout1.html'
@@ -144,47 +150,72 @@ class products_detailsViews(DetailView):
         context['stars'] = stars
        
         return context
-    
 
-@login_required(login_url="/users/login")
+#LOGIN   
+def login(request):
+    # if request.method=="POST":
+    #     username=request.POST["customer[username]"]
+    #     password=request.POST["customer[password]"]
+    #     user = authenticate(request,username=username,password=password )
+    #     if user is not None:
+    #         login(request,user)
+    #         messages.success(request,('You have been logged In...'))
+    #     else:
+    #         login(request,user)
+    #         messages.success(request,('There was an Error, Please try again'))
+    # else:
+    return render(request,"account/login.html")   
+#LOGOUT
+def logout(request):
+    # logout(request)
+    # messages.success(request,("You have been logged out....."))
+    return redirect("products:index")
+#REGISTER
+def register(request):
+    return render(request,"account/register.html")
+
+# @login_required(login_url="login")
 def cart_add(request, id):
     cart = Cart(request)
     product = Product1.objects.get(id=id)
     cart.add(product=product)
-    return redirect("home")
+    return redirect("products:products")
 
 
-@login_required(login_url="/users/login")
+# @login_required(login_url="login")
 def item_clear(request, id):
     cart = Cart(request)
     product = Product1.objects.get(id=id)
     cart.remove(product)
-    return redirect("cart_detail")
+    return redirect("products:cart_detail")
 
 
-@login_required(login_url="/users/login")
+# @login_required(login_url="login")
 def item_increment(request, id):
     cart = Cart(request)
     product = Product1.objects.get(id=id)
     cart.add(product=product)
-    return redirect("cart_detail")
+    return redirect("products:cart_detail")
 
 
-@login_required(login_url="/users/login")
+# @login_required(login_url="login")
 def item_decrement(request, id):
     cart = Cart(request)
     product = Product1.objects.get(id=id)
     cart.decrement(product=product)
-    return redirect("cart_detail")
+    return redirect("products:cart_detail")
 
 
-@login_required(login_url="/users/login")
+# @login_required(login_url="login")
 def cart_clear(request):
     cart = Cart(request)
     cart.clear()
-    return redirect("cart_detail")
+    return redirect("products:cart_detail")
 
 
-@login_required(login_url="/users/login")
+# @login_required(login_url="/users/login")
 def cart_detail(request):
     return render(request, 'cart/cart-style.html')
+
+
+

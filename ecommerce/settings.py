@@ -27,6 +27,16 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTHENTICATION_BACKENDS = [
+  
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
+
+]
+
 
 # Application definition
 
@@ -46,6 +56,11 @@ INSTALLED_APPS = [
     'main',
     'tinymce',
     'cart',
+    'registration',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
  
 
 ]
@@ -61,7 +76,22 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        # Add the account middleware:
+    "allauth.account.middleware.AccountMiddleware",
 ]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        # For each OAuth based provider, either add a ``SocialApp``
+        # (``socialaccount`` app) containing the required client
+        # credentials, or list them here:
+        'APP': {
+            'client_id': '309835748087-41sm5tet54psa2qvuociduf14d9rn4pd.apps.googleusercontent.com',
+            'secret': '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',
+            'key': ''
+        }
+    }
+}
 
 ROOT_URLCONF = 'ecommerce.urls'
 
@@ -143,3 +173,28 @@ STATIC_ROOT = BASE_DIR / "assets"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+#Relux
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_AUTO_LOGIN = True
+# SEND_ACTIVATION_EMAIL = False
+REGISTRATION_EMAIL_SUBJECT_PREFIX = ''
+
+REGISTRATION_OPEN = True
+LOGIN_URL = '/accounts/login/'
+LOGOUT_URL = '/accounts/logout/'
+LOGIN_REDIRECT_URL = '/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp-relay.brevo.com'
+EMAIL_PORT = '587'
+EMAIL_HOST_USER = 'fayasmuthu45@gmail.com'
+EMAIL_HOST_PASSWORD =  'qddk mnch ltnu hsf'
+EMAIL_USE_TLS = True
+
+DEFAULT_FROM_EMAIL= EMAIL_HOST_USER
+# DEFAULT_BCC_EMAIL= config('DEFAULT_BCC_EMAIL')
+# DEFAULT_REPLY_TO_EMAIL = config('DEFAULT_REPLY_TO_EMAIL')
+# SERVER_EMAIL = config('SERVER_EMAIL')
+# ADMIN_EMAIL = config('ADMIN_EMAIL')

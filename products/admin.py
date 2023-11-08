@@ -103,9 +103,10 @@ class Product1Admin(admin.ModelAdmin):
     )
 
     def image_preview(self, obj):
-        if obj.image:
+        product_image = obj.productimage_set.first()
+        if product_image and product_image.image1:
             return mark_safe(
-                f'<img loading="lazy" src="{obj.image.url}" style="width:50px;height:50px;object-fit:contain;">'
+                f'<img loading="lazy" src="{product_image.image1.url}" style="width:50px;height:50px;object-fit:contain;">'
             )
         return None
 

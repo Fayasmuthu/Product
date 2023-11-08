@@ -173,7 +173,7 @@
                             <div class="widget-title"><h2>Product Tags</h2></div>
                             <div class="widget-content filterDD">
                                 <ul class="tags-list product-tags d-flex-wrap clearfix">
-                                    {% for p_tag in applied_filters.product_tag %}
+                                    {% for p_tag in product_tag %}
                                     <li class="item"><a class="rounded-5" href="{% url  'products:products' %}?tag={{p_tag.name}}">{{p_tag.name}}</a></li>
                                     {% endfor %}
                                 </ul>
@@ -248,9 +248,15 @@
                                     <!-- Start Product Image -->
                                     <div class="product-image">
                                         <!-- Start Product Image -->
+                                        
+                                        {% for image in product.get_images|slice:1 %}
+                                        {% if image.image1 %}
                                         <a href="{{ product.get_absolute_url}}" class="product-img rounded-0">
-                                        <img class="rounded-0 blur-up lazyload" src="{{ product.image.url }}" alt="Product" title="Product" width="625" height="808" />
-                                            <!-- Hover Image -->
+                                        <img class="rounded-0 blur-up lazyload" src="{{ image.image1.url }}" alt="Product" title="Product" width="625" height="808" />
+                                            {% endif %}
+                                        {% endfor %} 
+                                        
+                                        <!-- Hover Image -->
                                             {% comment %} <img class="hover rounded-0 blur-up lazyload" data-src="{{ product.image2.url }}" src="{{ product.image2.url }}" alt="Product" title="{{ product.name }}" width="625" height="808" /> {% endcomment %}
                                             <!-- End Hover Image --></a>
                                         <!-- End Product Image -->
@@ -395,10 +401,16 @@
                         <div class="modal-body">
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                            
-                            <form method="post" action="#" id="product-form-quickshop" class="product-form align-items-center">
+                            <form method="post" action="{% url 'products:cart_add' product.id %}" id="product-form-quickshop" class="product-form align-items-center">
                                 {% comment %} <!-- Product Info --> ###### {% endcomment %}
+                                {% csrf_token %}
                                 <div class="row g-0 item mb-3">
-                                    <a class="col-4 product-image" href="{{ product.get_absolute_url}}"><img class="blur-up lazyload" data-src="{{product.image.url}}" src="{{product.image.url}}" alt="Product" title="Product" width="625" height="800" /></a>
+                                    {% for image in product.get_images|slice:1 %}
+                                    {% if image.image1 %}
+                                    <a class="col-4 product-image" href="{{ product.get_absolute_url}}"><img class="blur-up lazyload" data-src="{{image.image1.url}}" src="{{image.image1.url}}" alt="Product" title="Product" width="625" height="800" /></a>
+                                    {% endif %}
+                                    {% endfor %}
+
                                     <div class="col-8 product-details">
                                         <div class="product-variant ps-3">
 

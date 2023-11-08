@@ -48,20 +48,21 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        {% for key,value in request.session.cart.items %}
                                         <tr class="cart-row cart-flex position-relative">
                                             <td class="cart-delete text-center small-hide"><a href="#" class="cart-remove remove-icon position-static" data-bs-toggle="tooltip" data-bs-placement="top" title="Remove to Cart"><i class="icon anm anm-times-r"></i></a></td>
                                             <td class="cart-image cart-flex-item">
-                                                <a href="product-layout1.html"><img class="cart-image rounded-0 blur-up lazyload" data-src="assets/images/products/product1-120x170.jpg" src="assets/images/products/product1-120x170.jpg" alt="Sunset Sleep Scarf Top" width="120" height="170" /></a>
+                                                <a href="product-layout1.html"><img class="cart-image rounded-0 blur-up lazyload" data-src="{% static 'assets/images/products/product1-120x170.jpg' %}" src="{% static 'assets/images/products/product1-120x170.jpg' %}" alt="Sunset Sleep Scarf Top" width="120" height="170" /></a>
                                             </td>
                                             <td class="cart-meta small-text-left cart-flex-item">
                                                 <div class="list-view-item-title">
-                                                    <a href="product-layout1.html">Oxford Cuban Shirt</a>
+                                                    <a href="#;">{{value.name}}</a>
                                                 </div>
                                                 <div class="cart-meta-text">
                                                     Color: Black<br>Size: Small<br>Qty: 2
                                                 </div>
                                                 <div class="cart-price d-md-none">
-                                                    <span class="money fw-500">$99.00</span>
+                                                    <span class="money fw-500">$ {{value.price}}</span>
                                                 </div>
                                             </td>
                                             <td class="cart-price cart-flex-item text-center small-hide">
@@ -81,10 +82,11 @@
                                                 <span class="money fw-500">$198.00</span>
                                             </td>
                                         </tr>
+                                        {% endfor %}
                                         <tr class="cart-row cart-flex position-relative">
                                             <td class="cart-delete text-center small-hide"><a href="#" class="cart-remove remove-icon position-static" data-bs-toggle="tooltip" data-bs-placement="top" title="Remove to Cart"><i class="icon anm anm-times-r"></i></a></td>
                                             <td class="cart-image cart-flex-item">
-                                                <a href="product-layout1.html" ><img class="cart-image rounded-0 blur-up lazyload" data-src="assets/images/products/product2-120x170.jpg" src="assets/images/products/product2-120x170.jpg" alt="Sunset Sleep Scarf Top" width="120" height="170" /></a>
+                                                <a href="product-layout1.html" ><img class="cart-image rounded-0 blur-up lazyload" data-src="{% static 'assets/images/products/product2-120x170.jpg' %}" src="{% static 'assets/images/products/product2-120x170.jpg' %}" alt="Sunset Sleep Scarf Top" width="120" height="170" /></a>
                                             </td>
                                             <td class="cart-meta small-text-left cart-flex-item">
                                                 <div class="list-view-item-title">
@@ -385,42 +387,7 @@
                                                         <option value="VA" label="Vatican City">Vatican City</option>
                                                         <option value="AX" label="Åland Islands">Åland Islands</option>
                                                     </optgroup>
-                                                    <optgroup id="country-optgroup-Oceania" label="Oceania">
-                                                        <option value="AS" label="American Samoa">American Samoa</option>
-                                                        <option value="AQ" label="Antarctica">Antarctica</option>
-                                                        <option value="AU" label="Australia">Australia</option>
-                                                        <option value="BV" label="Bouvet Island">Bouvet Island</option>
-                                                        <option value="IO" label="British Indian Ocean Territory">British Indian Ocean Territory</option>
-                                                        <option value="CX" label="Christmas Island">Christmas Island</option>
-                                                        <option value="CC" label="Cocos [Keeling] Islands">Cocos [Keeling] Islands</option>
-                                                        <option value="CK" label="Cook Islands">Cook Islands</option>
-                                                        <option value="FJ" label="Fiji">Fiji</option>
-                                                        <option value="PF" label="French Polynesia">French Polynesia</option>
-                                                        <option value="TF" label="French Southern Territories">French Southern Territories</option>
-                                                        <option value="GU" label="Guam">Guam</option>
-                                                        <option value="HM" label="Heard Island and McDonald Islands">Heard Island and McDonald Islands</option>
-                                                        <option value="KI" label="Kiribati">Kiribati</option>
-                                                        <option value="MH" label="Marshall Islands">Marshall Islands</option>
-                                                        <option value="FM" label="Micronesia">Micronesia</option>
-                                                        <option value="NR" label="Nauru">Nauru</option>
-                                                        <option value="NC" label="New Caledonia">New Caledonia</option>
-                                                        <option value="NZ" label="New Zealand">New Zealand</option>
-                                                        <option value="NU" label="Niue">Niue</option>
-                                                        <option value="NF" label="Norfolk Island">Norfolk Island</option>
-                                                        <option value="MP" label="Northern Mariana Islands">Northern Mariana Islands</option>
-                                                        <option value="PW" label="Palau">Palau</option>
-                                                        <option value="PG" label="Papua New Guinea">Papua New Guinea</option>
-                                                        <option value="PN" label="Pitcairn Islands">Pitcairn Islands</option>
-                                                        <option value="WS" label="Samoa">Samoa</option>
-                                                        <option value="SB" label="Solomon Islands">Solomon Islands</option>
-                                                        <option value="GS" label="South Georgia and the South Sandwich Islands">South Georgia and the South Sandwich Islands</option>
-                                                        <option value="TK" label="Tokelau">Tokelau</option>
-                                                        <option value="TO" label="Tonga">Tonga</option>
-                                                        <option value="TV" label="Tuvalu">Tuvalu</option>
-                                                        <option value="UM" label="U.S. Minor Outlying Islands">U.S. Minor Outlying Islands</option>
-                                                        <option value="VU" label="Vanuatu">Vanuatu</option>
-                                                        <option value="WF" label="Wallis and Futuna">Wallis and Futuna</option>
-                                                    </optgroup>
+                                                   
                                                 </select>
                                             </div>
                                             <div class="form-group">
@@ -527,7 +494,7 @@
                                         <label for="cart-tearm">I agree with the terms and conditions</label>
                                     </div>
                                     <a href="checkout-style1.html" id="cartCheckout" class="btn btn-lg my-4 checkout w-100">Proceed To Checkout</a>
-                                    <div class="paymnet-img text-center"><img src="assets/images/icons/safepayment.png" alt="Payment" width="299" height="28" /></div>
+                                    <div class="paymnet-img text-center"><img src="{% static 'assets/images/icons/safepayment.png' %}" alt="Payment" width="299" height="28" /></div>
                                 </div>                               
                             </div>
                         </div>
@@ -537,7 +504,7 @@
                 <!--End Main Content-->
 
                 <!--Related Products-->
-                <section class="section product-slider pb-0">
+                {% comment %} <section class="section product-slider pb-0">
                     <div class="container">
                         <div class="section-header">
                             <h2>You may also like</h2>
@@ -549,7 +516,7 @@
                                     <!-- Start Product Image -->
                                     <div class="product-image">
                                         <!-- Start Product Image -->
-                                        <a href="product-layout1.html" class="product-img rounded-0"><img class="rounded-0 blur-up lazyload" src="assets/images/products/product1.jpg" alt="Product" title="Product" width="625" height="808" /></a>
+                                        <a href="product-layout1.html" class="product-img rounded-0"><img class="rounded-0 blur-up lazyload" src="{% static 'assets/images/products/product1.jpg' %}" alt="Product" title="Product" width="625" height="808" /></a>
                                         <!-- End Product Image -->
                                         <!-- Product label -->
                                         <div class="product-labels"><span class="lbl on-sale">Sale</span></div>
@@ -598,251 +565,10 @@
                                     <!-- End product details -->
                                 </div>
                             </div>
-                            <div class="item col-item">
-                                <div class="product-box">
-                                    <!-- Start Product Image -->
-                                    <div class="product-image">
-                                        <!-- Start Product Image -->
-                                        <a href="product-layout1.html" class="product-img rounded-0">
-                                            <!-- Image -->
-                                            <img class="primary rounded-0 blur-up lazyload" data-src="assets/images/products/product2.jpg" src="assets/images/products/product2.jpg" alt="Product" title="Product" width="625" height="808" />
-                                            <!-- End Image -->
-                                            <!-- Hover Image -->
-                                            <img class="hover rounded-0 blur-up lazyload" data-src="assets/images/products/product2-1.jpg" src="assets/images/products/product2-1.jpg" alt="Product" title="Product" width="625" height="808" />
-                                            <!-- End Hover Image -->
-                                        </a>
-                                        <!-- End Product Image -->
-                                        <!--Product Button-->
-                                        <div class="button-set style1">
-                                            <!--Cart Button-->
-                                            <a href="#quickshop-modal" class="btn-icon addtocart quick-shop-modal" data-bs-toggle="modal" data-bs-target="#quickshop_modal">
-                                                <span class="icon-wrap d-flex-justify-center h-100 w-100" data-bs-toggle="tooltip" data-bs-placement="left" title="Select Options"><i class="icon anm anm-cart-l"></i><span class="text">Select Options</span></span>
-                                            </a>
-                                            <!--End Cart Button-->
-                                            <!--Quick View Button-->
-                                            <a href="#quickview-modal" class="btn-icon quickview quick-view-modal" data-bs-toggle="modal" data-bs-target="#quickview_modal">
-                                                <span class="icon-wrap d-flex-justify-center h-100 w-100" data-bs-toggle="tooltip" data-bs-placement="left" title="Quick View"><i class="icon anm anm-search-plus-l"></i><span class="text">Quick View</span></span>
-                                            </a>
-                                            <!--End Quick View Button-->
-                                            <!--Wishlist Button-->
-                                            <a href="wishlist-style2.html" class="btn-icon wishlist" data-bs-toggle="tooltip" data-bs-placement="left" title="Add To Wishlist"><i class="icon anm anm-heart-l"></i><span class="text">Add To Wishlist</span></a>
-                                            <!--End Wishlist Button-->
-                                            <!--Compare Button-->
-                                            <a href="compare-style2.html" class="btn-icon compare" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to Compare"><i class="icon anm anm-random-r"></i><span class="text">Add to Compare</span></a>
-                                            <!--End Compare Button-->
-                                        </div>
-                                        <!--End Product Button-->
-                                    </div>
-                                    <!-- End Product Image -->
-                                    <!-- Start Product Details -->
-                                    <div class="product-details text-left">
-                                        <!-- Product Name -->
-                                        <div class="product-name">
-                                            <a href="product-layout1.html">Cuff Beanie Cap</a>
-                                        </div>
-                                        <!-- End Product Name -->
-                                        <!-- Product Price -->
-                                        <div class="product-price">
-                                            <span class="price">$128.00</span>
-                                        </div>
-                                        <!-- End Product Price -->
-                                        <!-- Product Review -->
-                                        <div class="product-review">
-                                            <i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i>
-                                            <span class="caption hidden ms-1">8 Reviews</span>
-                                        </div>
-                                        <!-- End Product Review -->
-                                    </div>
-                                    <!-- End product details -->
-                                </div>
-                            </div>
-                            <div class="item col-item">
-                                <div class="product-box">
-                                    <!-- Start Product Image -->
-                                    <div class="product-image">
-                                        <!-- Start Product Image -->
-                                        <a href="product-layout1.html" class="product-img rounded-0">
-                                            <!-- Image -->
-                                            <img class="primary rounded-0 blur-up lazyload" data-src="assets/images/products/product3.jpg" src="assets/images/products/product3.jpg" alt="Product" title="Product" width="625" height="808" />
-                                            <!-- End Image -->
-                                            <!-- Hover Image -->
-                                            <img class="hover rounded-0 blur-up lazyload" data-src="assets/images/products/product3-1.jpg" src="assets/images/products/product3-1.jpg" alt="Product" title="Product" width="625" height="808" />
-                                            <!-- End Hover Image -->
-                                        </a>
-                                        <!-- End Product Image -->
-                                        <!-- Product label -->
-                                        <div class="product-labels"><span class="lbl pr-label3">Trending</span></div>
-                                        <!-- End Product label -->
-                                        <!--Product Button-->
-                                        <div class="button-set style1">
-                                            <!--Cart Button-->
-                                            <a href="#addtocart-modal" class="btn-icon addtocart add-to-cart-modal" data-bs-toggle="modal" data-bs-target="#addtocart_modal">
-                                                <span class="icon-wrap d-flex-justify-center h-100 w-100" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to Cart"><i class="icon anm anm-cart-l"></i><span class="text">Add to Cart</span></span>
-                                            </a>
-                                            <!--End Cart Button-->
-                                            <!--Quick View Button-->
-                                            <a href="#quickview-modal" class="btn-icon quickview quick-view-modal" data-bs-toggle="modal" data-bs-target="#quickview_modal">
-                                                <span class="icon-wrap d-flex-justify-center h-100 w-100" data-bs-toggle="tooltip" data-bs-placement="left" title="Quick View"><i class="icon anm anm-search-plus-l"></i><span class="text">Quick View</span></span>
-                                            </a>
-                                            <!--End Quick View Button-->
-                                            <!--Wishlist Button-->
-                                            <a href="wishlist-style2.html" class="btn-icon wishlist" data-bs-toggle="tooltip" data-bs-placement="left" title="Add To Wishlist"><i class="icon anm anm-heart-l"></i><span class="text">Add To Wishlist</span></a>
-                                            <!--End Wishlist Button-->
-                                            <!--Compare Button-->
-                                            <a href="compare-style2.html" class="btn-icon compare" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to Compare"><i class="icon anm anm-random-r"></i><span class="text">Add to Compare</span></a>
-                                            <!--End Compare Button-->
-                                        </div>
-                                        <!--End Product Button-->
-                                    </div>
-                                    <!-- End Product Image -->
-                                    <!-- Start Product Details -->
-                                    <div class="product-details text-left">
-                                        <!-- Product Name -->
-                                        <div class="product-name">
-                                            <a href="product-layout1.html">Flannel Collar Shirt</a>
-                                        </div>
-                                        <!-- End Product Name -->
-                                        <!-- Product Price -->
-                                        <div class="product-price">
-                                            <span class="price">$99.00</span>
-                                        </div>
-                                        <!-- End Product Price -->
-                                        <!-- Product Review -->
-                                        <div class="product-review">
-                                            <i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star-o"></i><i class="icon anm anm-star-o"></i><i class="icon anm anm-star-o"></i>
-                                            <span class="caption hidden ms-1">10 Reviews</span>
-                                        </div>
-                                        <!-- End Product Review -->
-                                    </div>
-                                    <!-- End product details -->
-                                </div>
-                            </div>
-                            <div class="item col-item">
-                                <div class="product-box">
-                                    <!-- Start Product Image -->
-                                    <div class="product-image">
-                                        <!-- Start Product Image -->
-                                        <a href="product-layout1.html" class="product-img rounded-0">
-                                            <!-- Image -->
-                                            <img class="primary rounded-0 blur-up lazyload" data-src="assets/images/products/product4.jpg" src="assets/images/products/product4.jpg" alt="Product" title="Product" width="625" height="808" />
-                                            <!-- End Image -->
-                                            <!-- Hover Image -->
-                                            <img class="hover rounded-0 blur-up lazyload" data-src="assets/images/products/product4-1.jpg" src="assets/images/products/product4-1.jpg" alt="Product" title="Product" width="625" height="808" />
-                                            <!-- End Hover Image -->
-                                        </a>
-                                        <!-- End Product Image -->
-                                        <!-- Product label -->
-                                        <div class="product-labels"><span class="lbl on-sale">50% Off</span></div>
-                                        <!-- End Product label -->
-                                        <!--Product Button-->
-                                        <div class="button-set style1">
-                                            <!--Cart Button-->
-                                            <a href="#addtocart-modal" class="btn-icon addtocart add-to-cart-modal" data-bs-toggle="modal" data-bs-target="#addtocart_modal">
-                                                <span class="icon-wrap d-flex-justify-center h-100 w-100" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to Cart"><i class="icon anm anm-cart-l"></i><span class="text">Add to Cart</span></span>
-                                            </a>
-                                            <!--End Cart Button-->
-                                            <!--Quick View Button-->
-                                            <a href="#quickview-modal" class="btn-icon quickview quick-view-modal" data-bs-toggle="modal" data-bs-target="#quickview_modal">
-                                                <span class="icon-wrap d-flex-justify-center h-100 w-100" data-bs-toggle="tooltip" data-bs-placement="left" title="Quick View"><i class="icon anm anm-search-plus-l"></i><span class="text">Quick View</span></span>
-                                            </a>
-                                            <!--End Quick View Button-->
-                                            <!--Wishlist Button-->
-                                            <a href="wishlist-style2.html" class="btn-icon wishlist" data-bs-toggle="tooltip" data-bs-placement="left" title="Add To Wishlist"><i class="icon anm anm-heart-l"></i><span class="text">Add To Wishlist</span></a>
-                                            <!--End Wishlist Button-->
-                                            <!--Compare Button-->
-                                            <a href="compare-style2.html" class="btn-icon compare" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to Compare"><i class="icon anm anm-random-r"></i><span class="text">Add to Compare</span></a>
-                                            <!--End Compare Button-->
-                                        </div>
-                                        <!--End Product Button-->
-                                    </div>
-                                    <!-- End Product Image -->
-                                    <!-- Start Product Details -->
-                                    <div class="product-details text-left">
-                                        <!-- Product Name -->
-                                        <div class="product-name">
-                                            <a href="product-layout1.html">Cotton Hooded Hoodie</a>
-                                        </div>
-                                        <!-- End Product Name -->
-                                        <!-- Product Price -->
-                                        <div class="product-price">
-                                            <span class="price old-price">$198.00</span><span class="price">$99.00</span>
-                                        </div>
-                                        <!-- End Product Price -->
-                                        <!-- Product Review -->
-                                        <div class="product-review">
-                                            <i class="icon anm anm-star-o"></i><i class="icon anm anm-star-o"></i><i class="icon anm anm-star-o"></i><i class="icon anm anm-star-o"></i><i class="icon anm anm-star-o"></i>
-                                            <span class="caption hidden ms-1">0 Reviews</span>
-                                        </div>
-                                        <!-- End Product Review -->
-                                    </div>
-                                    <!-- End product details -->
-                                </div>
-                            </div>
-                            <div class="item col-item">
-                                <div class="product-box">
-                                    <!-- Start Product Image -->
-                                    <div class="product-image">
-                                        <!-- Start Product Image -->
-                                        <a href="product-layout1.html" class="product-img rounded-0">
-                                            <!-- Image -->
-                                            <img class="primary rounded-0 blur-up lazyload" data-src="assets/images/products/product5.jpg" src="assets/images/products/product5.jpg" alt="Product" title="Product" width="625" height="808" />
-                                            <!-- End Image -->
-                                            <!-- Hover Image -->
-                                            <img class="hover rounded-0 blur-up lazyload" data-src="assets/images/products/product5-1.jpg" src="assets/images/products/product5-1.jpg" alt="Product" title="Product" width="625" height="808" />
-                                            <!-- End Hover Image -->
-                                        </a>
-                                        <!-- End Product Image -->
-                                        <!-- Product label -->
-                                        <div class="product-labels"><span class="lbl pr-label2">Hot</span></div>
-                                        <!-- End Product label -->
-                                        <!--Product Button-->
-                                        <div class="button-set style1">
-                                            <!--Cart Button-->
-                                            <a href="#addtocart-modal" class="btn-icon addtocart add-to-cart-modal" data-bs-toggle="modal" data-bs-target="#addtocart_modal">
-                                                <span class="icon-wrap d-flex-justify-center h-100 w-100" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to Cart"><i class="icon anm anm-cart-l"></i><span class="text">Add to Cart</span></span>
-                                            </a>
-                                            <!--End Cart Button-->
-                                            <!--Quick View Button-->
-                                            <a href="#quickview-modal" class="btn-icon quickview quick-view-modal" data-bs-toggle="modal" data-bs-target="#quickview_modal">
-                                                <span class="icon-wrap d-flex-justify-center h-100 w-100" data-bs-toggle="tooltip" data-bs-placement="left" title="Quick View"><i class="icon anm anm-search-plus-l"></i><span class="text">Quick View</span></span>
-                                            </a>
-                                            <!--End Quick View Button-->
-                                            <!--Wishlist Button-->
-                                            <a href="wishlist-style2.html" class="btn-icon wishlist" data-bs-toggle="tooltip" data-bs-placement="left" title="Add To Wishlist"><i class="icon anm anm-heart-l"></i><span class="text">Add To Wishlist</span></a>
-                                            <!--End Wishlist Button-->
-                                            <!--Compare Button-->
-                                            <a href="compare-style2.html" class="btn-icon compare" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to Compare"><i class="icon anm anm-random-r"></i><span class="text">Add to Compare</span></a>
-                                            <!--End Compare Button-->
-                                        </div>
-                                        <!--End Product Button-->
-                                    </div>
-                                    <!-- End Product Image -->
-                                    <!-- Start Product Details -->
-                                    <div class="product-details text-left">
-                                        <!-- Product Name -->
-                                        <div class="product-name">
-                                            <a href="product-layout1.html">Denim Women Shorts</a>
-                                        </div>
-                                        <!-- End Product Name -->
-                                        <!-- Product Price -->
-                                        <div class="product-price">
-                                            <span class="price">$39.00</span>
-                                        </div>
-                                        <!-- End Product Price -->
-                                        <!-- Product Review -->
-                                        <div class="product-review">
-                                            <i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star-o"></i><i class="icon anm anm-star-o"></i><i class="icon anm anm-star-o"></i>
-                                            <span class="caption hidden ms-1">3 Reviews</span>
-                                        </div>
-                                        <!-- End Product Review -->
-                                    </div>
-                                    <!-- End product details -->
-                                </div>
-                            </div>
                         </div>
                         <!--End Product Grid-->
                     </div>
-                </section>
+                </section> {% endcomment %}
                 <!--End Related Products-->
             </div>
             <!-- End Body Container -->

@@ -27,7 +27,7 @@
                                 <li><a href="{% url "products:category" %}" class="site-nav">Category</a></li> 
                                 <li><a href="{% url "products:subcategory" %}" class="site-nav">subcategory</a></li> 
                                 <li><a href="{{ product.get_absolute_url}}">Products-Details </a></li>
-                                <li><a href="{% url "products:cart_detail" %}">Products-Details </a></li>
+                                <li><a href="{% url "products:cart_detail" %}">Cart </a></li>
                             </ul>
                         </li>
                     </ul>
@@ -138,12 +138,15 @@
                     <div id="accountBox">
                         <div class="customer-links">
                             <ul class="m-0">
-                                <li><a href=""><i class="icon anm anm-sign-in-al"></i>Sign In</a></li>
-                                <li><a href=""><i class="icon anm anm-user-al"></i>Register</a></li>
+                                {% if request.user.is_authenticated %}
+                                <li><a href="{% url "auth_logout" %}"><i class="icon anm anm-sign-out-al"></i>Sign out</a></li>
+                               {% else %}
+                                <li><a href="{% url "auth_login" %}"><i class="icon anm anm-sign-in-al"></i>Sign In</a></li>
+                                <li><a href="{% url 'registration_register' %}"><i class="icon anm anm-user-al"></i>Register</a></li>
+                                {% endif %}
                                 <li><a href=""><i class="icon anm anm-user-cil"></i>My Account</a></li>
                                 <li><a href=""><i class="icon anm anm-heart-l"></i>Wishlist</a></li>
                                 <li><a href=""><i class="icon anm anm-random-r"></i>Compare</a></li>
-                                <li><a href="login.html"><i class="icon anm anm-sign-out-al"></i>Sign out</a></li>
                             </ul>
                         </div>
                     </div>
@@ -154,7 +157,7 @@
                 <!--End Wishlist-->
                 <!--Minicart-->
                 <div class="header-cart iconset" title="Cart">
-                    <a href="#;" class="header-cart btn-minicart clr-none" data-bs-toggle="offcanvas" data-bs-target="#minicart-drawer"><i class="hdr-icon icon anm anm-cart-l"></i><span class="cart-count">2</span></a>
+                    <a href="#;" class="header-cart btn-minicart clr-none" data-bs-toggle="offcanvas" data-bs-target="#minicart-drawer"><i class="hdr-icon icon anm anm-cart-l"></i><span class="cart-count"> {{request.session.cart|length}}</span></a>
                 </div>
                 <!--End Minicart-->
                 <!--Mobile Toggle-->
@@ -252,3 +255,12 @@
     </ul>
 </div>
 <!--End Mobile Menu-->
+
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}

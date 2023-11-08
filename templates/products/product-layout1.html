@@ -1327,7 +1327,7 @@
                                 <!-- End Swatches Size -->
                                 <!-- Product Action -->
                                 <div class="product-form-submit d-flex-justify-center">
-                                    <button type="submit" name="add" class="btn product-cart-submit me-2"><span>Add to cart</span></button>
+                                    <a href="{% url 'products:cart_add' product.id %}"><button type="submit" name="add" class="btn product-cart-submit me-2"><span>Add to cart</span></button></a>
                                     <button type="submit" name="sold" class="btn btn-secondary product-sold-out d-none" disabled="disabled">Sold out</button>
                                     <button type="submit" name="buy" class="btn btn-secondary proceed-to-checkout">Buy it now</button>
                                 </div>
