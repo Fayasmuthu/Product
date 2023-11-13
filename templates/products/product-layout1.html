@@ -550,29 +550,40 @@
                             <!--End Shipping &amp; Return-->
                             <!--Review-->
                             <h3 class="tabs-ac-style d-md-none" rel="reviews">Review</h3>
+                           
                             <div id="reviews" class="tab-content">
                                 <div class="row">
                                     <div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-4">
                                         <div class="ratings-main">
                                             <div class="avg-rating d-flex-center mb-3">
-                                                <h4 class="avg-mark">5.0</h4>
+                                                <h4 class="avg-mark">{{ average_rating }}</h4>
                                                 <div class="avg-content ms-3">
                                                     <p class="text-rating">Average Rating</p>
                                                     <div class="ratings-full product-review">
-                                                        <a class="reviewLink d-flex-center" href="#reviews"><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star-o"></i><span class="caption ms-2">24 Ratings</span></a>
+                                                        {% for star, percentage in stars_percentages.items %}
+                                                        {% comment %} <a class="reviewLink d-flex-center" href="#reviews"><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star-o"></i>{% endcomment %}
+                                                            <i class="icon anm anm-star{% if percentage == 100 %}-o{% endif %}"></i>
+                                                            {% endfor %}
+                                                            <span class="caption ms-2">{{ total_reviews }} Ratings</span></a> 
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class="ratings-list">
+                                                {% for star, percentage in stars_percentages.items %}
                                                 <div class="ratings-container d-flex align-items-center mt-1">
                                                     <div class="ratings-full product-review m-0">
-                                                        <a class="reviewLink d-flex align-items-center" href="#reviews"><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star-o"></i></a>
+                                                        <a class="reviewLink d-flex align-items-center" href="#reviews">
+                                                            {% for i in stars %}
+                                                            <i class="icon anm anm-star{% if i > star %}-o{% endif %}"></i></a>
+                                                            {% endfor %}
+                                                            
                                                     </div>
-                                                    <div class="progress"><div class="progress-bar" role="progressbar" aria-valuenow="99" aria-valuemin="0" aria-valuemax="100" style="width:99%;"></div></div>
-                                                    <div class="progress-value">99%</div>
+                                                    <div class="progress"><div class="progress-bar" role="progressbar" aria-valuenow="{{ percentage }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ percentage }}%;"></div></div>
+                                                    <div class="progress-value">{{ percentage }}%</div>
                                                 </div>
-                                                <div class="ratings-container d-flex align-items-center mt-1">
+                                                {% endfor %}
+                                                {% comment %} <div class="ratings-container d-flex align-items-center mt-1">
                                                     <div class="ratings-full product-review m-0">
                                                         <a class="reviewLink d-flex align-items-center" href="#reviews"><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star-o"></i></a>
                                                     </div>
@@ -599,13 +610,14 @@
                                                     </div>
                                                     <div class="progress"><div class="progress-bar" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width:5%;"></div></div>
                                                     <div class="progress-value">05%</div>
-                                                </div>
+                                                </div> {% endcomment %}
                                             </div>
                                         </div>
                                         <hr />
                                         <div class="spr-reviews">
                                             <h3 class="spr-form-title">Customer Reviews</h3>
                                             <div class="review-inner">
+                                                {% for review in product.review_set.all %}
                                                 <div class="spr-review d-flex w-100">
                                                     <div class="spr-review-profile flex-shrink-0">
                                                         <img class="blur-up lazyload" data-src="assets/images/users/user-img1.jpg" src="assets/images/users/user-img1.jpg" alt="" width="200" height="200" />
@@ -613,17 +625,32 @@
                                                     <div class="spr-review-content flex-grow-1">
                                                         <div class="d-flex justify-content-between flex-column mb-2">
                                                             <div class="title-review d-flex align-items-center justify-content-between">
-                                                                <h5 class="spr-review-header-title text-transform-none mb-0">Eleanor Pena</h5>
-                                                                <span class="product-review spr-starratings m-0"><span class="reviewLink"><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i></span></span>
+                                                                <h5 class="spr-review-header-title text-transform-none mb-0"> {{ review.name }}</h5>
+                                                                
+                                                                <span class="product-review spr-starratings m-0">
+                                                                    <span class="reviewLink">
+                                                                        {% for star in stars %}
+                                                                        {% comment %} <i class="icon anm anm-star"></i>
+                                                                        <i class="icon anm anm-star"></i>
+                                                                        <i class="icon anm anm-star"></i> {% endcomment %}
+                                                                        {% if star <= review.rating %}
+                                                                        <i class="icon anm anm-star"></i>
+                                                                        {% else  %}
+                                                                        <i class="icon anm anm-star-o"></i>
+                                                                        {% endif %}
+                                                                        {% endfor %}
+                                                                    </span>
+                                                                </span>
                                                             </div>
                                                         </div>
-                                                        <b class="head-font">Good and High quality</b>
-                                                        <p class="spr-review-body">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.</p>
+                                                        <b class="head-font">{{review.review_title}}</b>
+                                                        <p class="spr-review-body">{{review.review_text}}</p>
                                                     </div>
                                                 </div>
-                                                <div class="spr-review d-flex w-100">
+                                                {% endfor %}
+                                               <div class="spr-review d-flex w-100">
                                                     <div class="spr-review-profile flex-shrink-0">
-                                                        <img class="blur-up lazyload" data-src="assets/images/users/testimonial1.jpg" src="assets/images/users/testimonial1.jpg" alt="" width="200" height="200" />
+                                                        <img class="blur-up lazyload" data-src="{% static 'assets/images/users/testimonial1.jpg' %}" src="{% static 'assets/images/users/testimonial1.jpg' %}" alt="" width="200" height="200" />
                                                     </div>
                                                     <div class="spr-review-content flex-grow-1">
                                                         <div class="d-flex justify-content-between flex-column mb-2">
@@ -641,37 +668,38 @@
                                     </div>
 
                                     <div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-4">
-                                        <form method="post" action="#" class="product-review-form new-review-form">
+                                        <form method="post" action="" class="product-review-form new-review-form">
                                             <h3 class="spr-form-title">Write a Review</h3>
                                             <p>Your email address will not be published. Required fields are marked *</p>
+
+                                            {% csrf_token %}
                                             <fieldset class="row spr-form-contact">
                                                 <div class="col-sm-6 spr-form-contact-name form-group">
-                                                    <label class="spr-form-label" for="nickname">Name <span class="required">*</span></label>
-                                                    <input class="spr-form-input spr-form-input-text" id="nickname" type="text" name="name" required />
+                                                    {{ review_form.name.label_tag }}
+                                                    {{ review_form.name }}
+                                                    {{ review_form.name.errors }}
                                                 </div>
                                                 <div class="col-sm-6 spr-form-contact-email form-group">
-                                                    <label class="spr-form-label" for="email">Email <span class="required">*</span></label>
-                                                    <input class="spr-form-input spr-form-input-email " id="email" type="email" name="email" required />
+                                                    {{ review_form.email.label_tag }}
+                                                    {{ review_form.email }}
+                                                    {{ review_form.email.errors }}
                                                 </div>
                                                 <div class="col-sm-6 spr-form-review-title form-group">
-                                                    <label class="spr-form-label" for="review">Review Title </label>
-                                                    <input class="spr-form-input spr-form-input-text " id="review" type="text" name="review" />
+                                                    {{ review_form.review_title.label_tag }}
+                                                    {{ review_form.review_title }}
+                                                    {{ review_form.review_title.errors }}
                                                 </div>
                                                 <div class="col-sm-6 spr-form-review-rating form-group">
-                                                    <label class="spr-form-label">Rating</label>
-                                                    <div class="product-review pt-1">
-                                                        <div class="review-rating">
-                                                            <a href="#;"><i class="icon anm anm-star-o"></i></a><a href="#;"><i class="icon anm anm-star-o"></i></a><a href="#;"><i class="icon anm anm-star-o"></i></a><a href="#;"><i class="icon anm anm-star-o"></i></a><a href="#;"><i class="icon anm anm-star-o"></i></a>
-                                                        </div>
-                                                    </div>
+                                                    {{ review_form.rating.label_tag }}
+                                                    {{ review_form.rating }}
+                                                    {{ review_form.rating.errors }}
                                                 </div>
                                                 <div class="col-12 spr-form-review-body form-group">
-                                                    <label class="spr-form-label" for="message">Body of Review <span class="spr-form-review-body-charactersremaining">(1500) characters remaining</span></label>
-                                                    <div class="spr-form-input">
-                                                        <textarea class="spr-form-input spr-form-input-textarea" id="message" name="message" rows="3"></textarea>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
+                                                    {{ review_form.review_text.label_tag }}
+                                                    {{ review_form.review_text }}
+                                                    {{ review_form.review_text.errors }}
+                                                </div> 
+                                            </fieldset> 
                                             <div class="spr-form-actions clearfix">
                                                 <input type="submit" class="btn btn-primary spr-button spr-button-primary" value="Submit Review" />
                                             </div>
@@ -679,6 +707,7 @@
                                     </div>
                                 </div>
                             </div>
+                           
                             <!--End Review-->
                         </div>
                     </div>
@@ -696,14 +725,15 @@
 
                         <!--Product Grid-->
                         <div class="product-slider-4items gp10 arwOut5 grid-products">
-                            {% if product.related_products %}
-                            {% for product in product.related_products %}
+                           
                             <div class="item col-item">
                                 <div class="product-box">
                                     <!-- Start Product Image -->
                                     <div class="product-image">
                                         <!-- Start Product Image -->
-                                        <a href="{{product.get_absolute_url}}" class="product-img"><img class="blur-up lazyload" src="{{product.image.url}}" alt="Product" title="Product" width="625" height="808" /></a>
+                                        
+                                        <a href="{{product.get_absolute_url}}" class="product-img">
+                                            <img class="blur-up lazyload" src="{{product.image.url}}" alt="Product" title="Product" width="625" height="808" /></a>
                                         <!-- End Product Image -->
                                         <!-- Product label -->
                                         <div class="product-labels"><span class="lbl " style="background: {{ product.products_tag.background_color.code}};">{{product.Product_tag.name}}</span></div>
@@ -758,8 +788,7 @@
                                     <!-- End product details -->
                                 </div>
                             </div>
-                            {% endfor %}
-                            {% endif %}
+                         
                         
                         </div>
                         <!--End Product Grid-->
@@ -1915,5 +1944,34 @@
 
         </div>
         <!--End Page Wrapper-->
+
+                                                    {% comment %} <fieldset class="row spr-form-contact">
+                                                <div class="col-sm-6 spr-form-contact-name form-group">
+                                                    <label class="spr-form-label" for="nickname">Name <span class="required">*</span></label>
+                                                    <input class="spr-form-input spr-form-input-text" id="nickname" type="text" name="name" required />
+                                                </div>
+                                                <div class="col-sm-6 spr-form-contact-email form-group">
+                                                    <label class="spr-form-label" for="email">Email <span class="required">*</span></label>
+                                                    <input class="spr-form-input spr-form-input-email " id="email" type="email" name="email" required />
+                                                </div>
+                                                <div class="col-sm-6 spr-form-review-title form-group">
+                                                    <label class="spr-form-label" for="review">Review Title </label>
+                                                    <input class="spr-form-input spr-form-input-text " id="review" type="text" name="review" />
+                                                </div>
+                                                <div class="col-sm-6 spr-form-review-rating form-group">
+                                                    <label class="spr-form-label">Rating</label>
+                                                    <div class="product-review pt-1">
+                                                        <div class="review-rating">
+                                                            <a href="#;"><i class="icon anm anm-star-o"></i></a><a href="#;"><i class="icon anm anm-star-o"></i></a><a href="#;"><i class="icon anm anm-star-o"></i></a><a href="#;"><i class="icon anm anm-star-o"></i></a><a href="#;"><i class="icon anm anm-star-o"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 spr-form-review-body form-group">
+                                                    <label class="spr-form-label" for="message">Body of Review <span class="spr-form-review-body-charactersremaining">(1500) characters remaining</span></label>
+                                                    <div class="spr-form-input">
+                                                        <textarea class="spr-form-input spr-form-input-textarea" id="message" name="message" rows="3"></textarea>
+                                                    </div>
+                                                </div>
+                                            </fieldset> {% endcomment %}
     </body>
 </html>

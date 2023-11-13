@@ -1,6 +1,7 @@
 {% extends "registration/registration_base.html" %}
 {% load i18n %}
 {% load socialaccount %}
+{% load crispy_forms_tags %}
 
 {% block title %}{% trans "Log in" %}{% endblock %}
 
@@ -9,19 +10,19 @@
 
                             <form method="post" action="">
                                 {% csrf_token %}
-                                {{ form.as_p }}
+                                {{ form|crispy }}
                                 <input type="submit" class="btn btn-primary btn-lg w-100" value="{% trans 'Log in' %}" />
                                 <input type="hidden" name="next" value="{{ next }}" />
                                 <br>
                                 <p>{% trans "Forgot your password?" %} <a href="{% url 'auth_password_reset' %}">{% trans "Reset it" %}</a>.</p>
                                 
+                            </form>
                                 <p class="text-center fs-6 text-muted mb-3">Sign in with social account</p>
                                 <div class="login-social d-flex-justify-center">
-                                    <a class="social-link facebook rounded-5 d-flex-justify-center" href="#"><i class="icon anm anm-facebook-f me-2"></i> Facebook</a>
+                                    <a class="social-link facebook rounded-5 d-flex-justify-center" href=""><i class="icon anm anm-facebook-f me-2"></i> Facebook</a>
                                     <a class="social-link google rounded-5 d-flex-justify-center" href="{% provider_login_url "google" %}"><i class="icon anm anm-google-plus-g me-2"></i> Google</a>
-                                    <a class="social-link twitter rounded-5 d-flex-justify-center" href="#;"><i class="icon anm anm-twitter me-2"></i> Twitter</a>
+                                    <a class="social-link twitter rounded-5 d-flex-justify-center"><i class="icon anm anm-twitter me-2"></i> Twitter</a>
                                 </div>
-                            </form>
 
                             <div class="login-signup-text mt-4 mb-2 fs-6 text-center text-muted">{% trans "Not a member?" %} <a href="{% url 'registration_register' %}">{% trans "Register" %}</a>.</div>
 

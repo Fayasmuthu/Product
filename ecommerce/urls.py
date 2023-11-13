@@ -25,7 +25,7 @@ urlpatterns = [
     path("", include("products.urls", namespace="products")),
     path("", include("main.urls", namespace="main")),
     path("", include("orders.urls", namespace="orders")),
-    path('accounts/', include('registration.backends.simple.urls')),
+    path('accounts/', include('registration.backends.default.urls')),
     path('accounts/', include('allauth.urls')),
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

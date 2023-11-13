@@ -1,6 +1,6 @@
 from django.contrib import admin
 from products.models import ( Product1, Categorys, SubsCategory,ProductFeature,ProductAdditional,
-                             Countdown,Availability_sold
+                             Countdown,Availability_sold,Review
                              )
 from .models import (
     Category, SubCategory, Product, 
@@ -102,11 +102,12 @@ class Product1Admin(admin.ModelAdmin):
         'p_subscategory__name',
     )
 
+
+
     def image_preview(self, obj):
-        product_image = obj.productimage_set.first()
-        if product_image and product_image.image1:
+        if obj.image:
             return mark_safe(
-                f'<img loading="lazy" src="{product_image.image1.url}" style="width:50px;height:50px;object-fit:contain;">'
+                f'<img loading="lazy" src="{obj.image.url}" style="width:50px;height:50px;object-fit:contain;">'
             )
         return None
 
@@ -135,3 +136,9 @@ class ColorAdmin(admin.ModelAdmin):
         return mark_safe('<div style="width:30px; height:30px; background-color:%s"></div>' % (obj.code))
        
     color_bg.short_description = 'color_bg'
+
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ['product', 'name', 'rating', 'email', 'create_at']
+    list_filter = ['rating']
+    search_fields = ['name', 'email']

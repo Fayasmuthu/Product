@@ -249,12 +249,11 @@
                                     <div class="product-image">
                                         <!-- Start Product Image -->
                                         
-                                        {% for image in product.get_images|slice:1 %}
-                                        {% if image.image1 %}
+                                    
+                                        
                                         <a href="{{ product.get_absolute_url}}" class="product-img rounded-0">
-                                        <img class="rounded-0 blur-up lazyload" src="{{ image.image1.url }}" alt="Product" title="Product" width="625" height="808" />
-                                            {% endif %}
-                                        {% endfor %} 
+                                        <img class="rounded-0 blur-up lazyload" src="{{ product.image.url }}" alt="Product" title="Product" width="625" height="808" />
+                                      
                                         
                                         <!-- Hover Image -->
                                             {% comment %} <img class="hover rounded-0 blur-up lazyload" data-src="{{ product.image2.url }}" src="{{ product.image2.url }}" alt="Product" title="{{ product.name }}" width="625" height="808" /> {% endcomment %}
@@ -405,11 +404,9 @@
                                 {% comment %} <!-- Product Info --> ###### {% endcomment %}
                                 {% csrf_token %}
                                 <div class="row g-0 item mb-3">
-                                    {% for image in product.get_images|slice:1 %}
-                                    {% if image.image1 %}
-                                    <a class="col-4 product-image" href="{{ product.get_absolute_url}}"><img class="blur-up lazyload" data-src="{{image.image1.url}}" src="{{image.image1.url}}" alt="Product" title="Product" width="625" height="800" /></a>
-                                    {% endif %}
-                                    {% endfor %}
+                                    
+                                    <a class="col-4 product-image" href="{{ product.get_absolute_url}}"><img class="blur-up lazyload" data-src="{{product.image.url}}" src="{{product.image.url}}" alt="Product" title="Product" width="625" height="800" /></a>
+                                   
 
                                     <div class="col-8 product-details">
                                         <div class="product-variant ps-3">

@@ -61,12 +61,19 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.twitter',
+    'crispy_forms',
+    "crispy_bootstrap4",
  
 
 ]
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
 SILENCED_SYSTEM_CHECKS = ["security.W019"]
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -190,11 +197,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp-relay.brevo.com'
 EMAIL_PORT = '587'
 EMAIL_HOST_USER = 'fayasmuthu45@gmail.com'
-EMAIL_HOST_PASSWORD =  'qddk mnch ltnu hsf'
+EMAIL_HOST_PASSWORD =  'jm2Tk4QHDVdy7aMh'
 EMAIL_USE_TLS = True
 
-DEFAULT_FROM_EMAIL= EMAIL_HOST_USER
-# DEFAULT_BCC_EMAIL= config('DEFAULT_BCC_EMAIL')
-# DEFAULT_REPLY_TO_EMAIL = config('DEFAULT_REPLY_TO_EMAIL')
-# SERVER_EMAIL = config('SERVER_EMAIL')
-# ADMIN_EMAIL = config('ADMIN_EMAIL')
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

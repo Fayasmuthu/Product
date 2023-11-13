@@ -150,7 +150,7 @@ class Product1(models.Model):
     slug=models.SlugField(max_length=100)
     description = models.TextField()
     vendor = models.CharField(max_length=255)
-    # image = models.ImageField(upload_to='products/')
+    image = models.ImageField(upload_to='products/')
     # sale_end_date = models.DateField(blank=True,null=True)
     available = models.BooleanField(default=True) 
     brand =models.ForeignKey(Brand,on_delete=models.CASCADE,related_name='brand')
@@ -222,20 +222,20 @@ class Product1(models.Model):
     def get_Countdown(self):
         return Countdown.objects.filter(product=self)
     
-    # def is_on_sale(self):
-    #     return self.offer_count().filter(sale_end_date__gt=timezone.now()).exists()
 
     def get_availsold(self):
         return Availability_sold.objects.filter(product=self)
 
     def __str__(self):
         return f"{self.brand}: {self.name}"
+    
+    def get_review(self):
+        return Review.objects.filter(product=self)
 
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product1, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    image1=models.ImageField(upload_to='products',blank=True,null=True)
     image = models.ImageField(upload_to='products',blank=True,null=True)
     color = models.ForeignKey('products.Color', on_delete=models.CASCADE,blank=True,null=True)
 
@@ -319,3 +319,12 @@ class Availability_sold(models.Model):
         verbose_name = ("Offer Count")
         verbose_name_plural = ("Offer Count")
 
+
+class Review(models.Model):
+    product=models.ForeignKey(Product1,on_delete=models.CASCADE)
+    name=models.CharField(max_length=150)
+    email=models.EmailField()
+    review_title=models.CharField(max_length=150)
+    rating =models.IntegerField()
+    review_text=models.TextField(max_length=200)
+    create_at =models.DateTimeField(auto_now_add=True)

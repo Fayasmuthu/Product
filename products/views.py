@@ -4,11 +4,13 @@ from django.views.generic.edit import FormView
 from .models import Product ,Categorys,SubsCategory
 from django.contrib.auth.decorators import login_required
 from cart.cart import Cart
-from .models import Product1,Color,Size,Brand,Product_tag,AvilableSize
+from .models import Product1,Color,Size,Brand,Product_tag,AvilableSize,Review
 from django.utils import timezone
 from django.db.models import Min
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
+from allauth.socialaccount.models import SocialApp
+from .forms import ReviewForm
 
  
 # Create your views here.
@@ -146,24 +148,46 @@ class products_detailsViews(DetailView):
         # product = context['product']  # Assuming the product object is available in the context
         # stars = range(1, product.rating + 1)  # Generating stars based on the product's rating
         stars = range(1, 6)  # Generating stars based on the product's rating
+        product=context['product']
+
+        reviews = Review.objects.filter(product=product)
+        total_reviews =reviews.count()
+        if total_reviews >0:
+            average_rating =sum([review.rating for review in reviews]) / total_reviews
+        else:
+            average_rating=0
+        stars_percentages = {
+            '5': (reviews.filter(rating=5).count() / total_reviews) * 100,
+            '4': (reviews.filter(rating=4).count() / total_reviews) * 100,
+            '3': (reviews.filter(rating=3).count() / total_reviews) * 100,
+            '2': (reviews.filter(rating=2).count() / total_reviews) * 100,
+            '1': (reviews.filter(rating=1).count() / total_reviews) * 100,
+        }
 
         context['stars'] = stars
-       
+        context['review_form']=ReviewForm()
+        context['average_rating'] = round(average_rating, 1)
+        context['total_reviews'] = total_reviews
+        context['stars_percentages'] = stars_percentages
         return context
+    
+    def post(self,request,*args, **kwargs):
+        product =self.get_object()
+        form =ReviewForm(request.POST)
+
+        if form.is_valid():
+            review =form.save(commit=False)
+            review.product =product
+            review.save()
+            return redirect('products:products_details',slug=product.slug)
+        
+        context=self.get_context_data()
+        context['review_form']=form
+        return self.render_to_response(context)
 
 #LOGIN   
 def login(request):
-    # if request.method=="POST":
-    #     username=request.POST["customer[username]"]
-    #     password=request.POST["customer[password]"]
-    #     user = authenticate(request,username=username,password=password )
-    #     if user is not None:
-    #         login(request,user)
-    #         messages.success(request,('You have been logged In...'))
-    #     else:
-    #         login(request,user)
-    #         messages.success(request,('There was an Error, Please try again'))
-    # else:
+   
     return render(request,"account/login.html")   
 #LOGOUT
 def logout(request):
@@ -174,6 +198,7 @@ def logout(request):
 def register(request):
     return render(request,"account/register.html")
 
+#______________CART____________
 # @login_required(login_url="login")
 def cart_add(request, id):
     cart = Cart(request)
@@ -194,7 +219,11 @@ def item_clear(request, id):
 def item_increment(request, id):
     cart = Cart(request)
     product = Product1.objects.get(id=id)
-    cart.add(product=product)
+    available_size = product.available_sizes.first()
+    
+    if available_size:
+        cart.add(product=product, price=available_size.price)  # Use the price from available_size
+
     return redirect("products:cart_detail")
 
 
@@ -215,7 +244,15 @@ def cart_clear(request):
 
 # @login_required(login_url="/users/login")
 def cart_detail(request):
-    return render(request, 'cart/cart-style.html')
+    cart = Cart(request)
+    cart_items = cart.get_cart_items()
+    total_price = sum(item['price'] * item['quantity'] for item in cart_items)
+    
+    context = {
+        'cart_items': cart_items,
+        'total_price': total_price,
+    }
+    return render(request, 'cart/cart-style.html',context)
 
 
 

@@ -184,7 +184,7 @@
                         <div class="collection-slider-5items gp15 arwOut5 hov-arrow">
                             {% for sub in subcategories %}
                             <div class="category-item zoomscal-hov">
-                                <a href="" class="category-link clr-none">
+                                <a href="{% url "products:products" %}" class="category-link clr-none">
                                     <div class="zoom-scal zoom-scal-nopb rounded-3"><img class="blur-up lazyload" data-src="{{sub.image.url}}" src="{{sub.image.url}}" alt="Men's Jakets" title="Men's Jakets" width="365" height="365" /></div>
                                     <div class="details mt-3 text-center">
                                         <h4 class="category-title mb-0">{{sub.title}}</h4>
@@ -230,11 +230,9 @@
                                                     <!-- Start Product Image -->
                                                     <div class="product-image">
                                                         <!-- Start Product Image -->
-                                                    {% for image in product.get_images|slice:1 %}
-                                                        {% if image.image1 %}
-                                                            <a href="{{product.get_absolute_url}}" class="product-img rounded-3"><img class="blur-up lazyload" src="{{ image.image1.url }}" alt="Product" title="Product" width="625" height="808" /></a>
-                                                        {% endif %}
-                                                    {% endfor %} 
+                                                
+                                                            <a href="{{product.get_absolute_url}}" class="product-img rounded-3"><img class="blur-up lazyload" src="{{ product.image.url }}" alt="Product" title="Product" width="625" height="808" /></a>
+                                                 
                                                         <!-- End Product Image -->
                                                         <!-- Product label -->
                                                         <div class="product-labels">
