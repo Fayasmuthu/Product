@@ -11,6 +11,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from allauth.socialaccount.models import SocialApp
 from .forms import ReviewForm
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
  
 # Create your views here.
@@ -42,6 +43,7 @@ def shop(request):
     sizes =Size.objects.all()
     brands =Brand.objects.all()
     product_tag=Product_tag.objects.all()
+    products = Product1.objects.all()
     
 
     q= request.GET.get('q')
@@ -54,7 +56,6 @@ def shop(request):
     azid = request.GET.get('SortBy')
     category=request.GET.get('Category')
     
-    products = Product1.objects.all()
     
     if q :
         instance = SubsCategory.objects.get(slug=q)
@@ -94,8 +95,21 @@ def shop(request):
 
     if azid == 'name-descending':
         products = products.order_by('-name')
-        
 
+
+    #__________________-PAGINATION-_______________________
+    result_pagination = Paginator(products,1)
+    page_number=request.GET.get('page')
+    result=result_pagination.get_page(page_number)
+    total_result=result.paginator.num_pages
+     #__________________-END PAGINATION-_______________________
+     #_________________-SEARCH-_________________________
+    # query =request.GET.get('query')
+    # if query:
+    #     result=Product1.objects.filter(name__icontains=query)
+    # else:
+    #     result = []
+    # #_________________-END SEARCH-_________________________
 
     current_time = timezone.now()
    
@@ -105,6 +119,8 @@ def shop(request):
                'selected_size': selected_size,
                'stars': range(1, 6),
                'product_tag':product_tag,
+               'result':result,
+               'total_result':total_result,
                 'applied_filters': {
                     'categories': categories,
                     'subcategory':subcategory,
@@ -157,11 +173,11 @@ class products_detailsViews(DetailView):
         else:
             average_rating=0
         stars_percentages = {
-            '5': (reviews.filter(rating=5).count() / total_reviews) * 100,
-            '4': (reviews.filter(rating=4).count() / total_reviews) * 100,
-            '3': (reviews.filter(rating=3).count() / total_reviews) * 100,
-            '2': (reviews.filter(rating=2).count() / total_reviews) * 100,
-            '1': (reviews.filter(rating=1).count() / total_reviews) * 100,
+            '5': (reviews.filter(rating=5).count() * 100 / max(total_reviews, 1)) if total_reviews else 0,
+            '4': (reviews.filter(rating=4).count() * 100 / max(total_reviews, 1)) if total_reviews else 0,
+            '3': (reviews.filter(rating=3).count() * 100 / max(total_reviews, 1)) if total_reviews else 0,
+            '2': (reviews.filter(rating=2).count() * 100 / max(total_reviews, 1)) if total_reviews else 0,
+            '1': (reviews.filter(rating=1).count() * 100 / max(total_reviews, 1)) if total_reviews else 0,
         }
 
         context['stars'] = stars
@@ -244,15 +260,11 @@ def cart_clear(request):
 
 # @login_required(login_url="/users/login")
 def cart_detail(request):
-    cart = Cart(request)
-    cart_items = cart.get_cart_items()
-    total_price = sum(item['price'] * item['quantity'] for item in cart_items)
-    
-    context = {
-        'cart_items': cart_items,
-        'total_price': total_price,
-    }
-    return render(request, 'cart/cart-style.html',context)
+ 
+    return render(request, 'cart/cart-style.html')
 
+
+def myaccount(request):
+    return render(request,'account/my-account.html')
 
 

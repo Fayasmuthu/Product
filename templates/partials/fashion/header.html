@@ -144,7 +144,7 @@
                                 <li><a href="{% url "auth_login" %}"><i class="icon anm anm-sign-in-al"></i>Sign In</a></li>
                                 <li><a href="{% url 'registration_register' %}"><i class="icon anm anm-user-al"></i>Register</a></li>
                                 {% endif %}
-                                <li><a href=""><i class="icon anm anm-user-cil"></i>My Account</a></li>
+                                <li><a href="{% url "products:myaccount" %}"><i class="icon anm anm-user-cil"></i>My Account</a></li>
                                 <li><a href=""><i class="icon anm anm-heart-l"></i>Wishlist</a></li>
                                 <li><a href=""><i class="icon anm anm-random-r"></i>Compare</a></li>
                             </ul>

@@ -16,6 +16,7 @@
         <!-- Main Style CSS -->
         <link rel="stylesheet" href="{% static 'assets/css/style-min.css' %}">
         <link rel="stylesheet" href="{% static 'assets/css/responsive.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY1TG9BRVoN2BXBRDIzSTLbC4Uq8C1DRg6LZ6T" crossorigin="anonymous">
     </head>
 
     <body class="template-product product-layout1">
@@ -575,9 +576,13 @@
                                                     <div class="ratings-full product-review m-0">
                                                         <a class="reviewLink d-flex align-items-center" href="#reviews">
                                                             {% for i in stars %}
-                                                            <i class="icon anm anm-star{% if i > star %}-o{% endif %}"></i></a>
+                                                                {% if i > star %}
+                                                                <i class="icon anm anm-star"></i>
+                                                                {% else %}
+                                                                <i class="icon anm anm-star-o"></i>
+                                                                {% endif %}
                                                             {% endfor %}
-                                                            
+                                                        </a>
                                                     </div>
                                                     <div class="progress"><div class="progress-bar" role="progressbar" aria-valuenow="{{ percentage }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ percentage }}%;"></div></div>
                                                     <div class="progress-value">{{ percentage }}%</div>
@@ -644,7 +649,7 @@
                                                             </div>
                                                         </div>
                                                         <b class="head-font">{{review.review_title}}</b>
-                                                        <p class="spr-review-body">{{review.review_text}}</p>
+                                                        <p class="spr-review-body">{{review.review_text|tr}}</p>
                                                     </div>
                                                 </div>
                                                 {% endfor %}

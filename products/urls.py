@@ -13,6 +13,7 @@ urlpatterns = [
     path('details/<slug:slug>/',views.products_detailsViews.as_view(),name='products_details'),
 
     #Account
+    path('myaccount',views.myaccount, name="myaccount"),
 #     path('login',views.login, name="login"),
 #      path('logout',views.logout, name="logout"),
 #     path('register',views.register, name="register"),
