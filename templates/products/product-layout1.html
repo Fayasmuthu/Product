@@ -625,7 +625,7 @@
                                                 {% for review in product.review_set.all %}
                                                 <div class="spr-review d-flex w-100">
                                                     <div class="spr-review-profile flex-shrink-0">
-                                                        <img class="blur-up lazyload" data-src="assets/images/users/user-img1.jpg" src="assets/images/users/user-img1.jpg" alt="" width="200" height="200" />
+                                                        <img class="blur-up lazyload" data-src="{% static 'assets/images/users/user-img1.jpg' %}" src="{% static 'assets/images/users/user-img1.jpg' %}" alt="" width="200" height="200" />
                                                     </div>
                                                     <div class="spr-review-content flex-grow-1">
                                                         <div class="d-flex justify-content-between flex-column mb-2">
@@ -649,7 +649,7 @@
                                                             </div>
                                                         </div>
                                                         <b class="head-font">{{review.review_title}}</b>
-                                                        <p class="spr-review-body">{{review.review_text|tr}}</p>
+                                                        <p class="spr-review-body">{{review.review_text}}</p>
                                                     </div>
                                                 </div>
                                                 {% endfor %}

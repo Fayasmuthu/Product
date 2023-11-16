@@ -6,6 +6,7 @@ from django.core.validators import MaxValueValidator
 from django.template.defaultfilters import slugify
 from django.urls import reverse
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 
 register = template.Library()
@@ -328,3 +329,9 @@ class Review(models.Model):
     rating =models.IntegerField()
     review_text=models.TextField(max_length=200)
     create_at =models.DateTimeField(auto_now_add=True)
+
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product1, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+

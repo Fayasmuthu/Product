@@ -101,6 +101,7 @@ class Product1Admin(admin.ModelAdmin):
         "name",
         'p_subscategory__name',
     )
+    list_editable=('p_subscategory',)
 
 
 

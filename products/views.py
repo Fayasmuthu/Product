@@ -96,6 +96,12 @@ def shop(request):
     if azid == 'name-descending':
         products = products.order_by('-name')
 
+     #_________________-SEARCH-_________________________
+    query =request.GET.get('query')
+    if query:
+        products=Product1.objects.filter(name__icontains=query)
+
+    # #_________________-END SEARCH-_________________________
 
     #__________________-PAGINATION-_______________________
     result_pagination = Paginator(products,1)
@@ -103,13 +109,7 @@ def shop(request):
     result=result_pagination.get_page(page_number)
     total_result=result.paginator.num_pages
      #__________________-END PAGINATION-_______________________
-     #_________________-SEARCH-_________________________
-    # query =request.GET.get('query')
-    # if query:
-    #     result=Product1.objects.filter(name__icontains=query)
-    # else:
-    #     result = []
-    # #_________________-END SEARCH-_________________________
+
 
     current_time = timezone.now()
    
@@ -219,7 +219,10 @@ def register(request):
 def cart_add(request, id):
     cart = Cart(request)
     product = Product1.objects.get(id=id)
-    cart.add(product=product)
+    sale_price = product.get_sale_price()
+    cart.add(product=product,price=sale_price)
+    
+
     return redirect("products:products")
 
 
