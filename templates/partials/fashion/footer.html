@@ -1,5 +1,6 @@
 
 {% load static %}
+
                        <!--Footer-->
                        <div class="footer">
                         <div class="newsletterbg clearfix">
@@ -143,30 +144,32 @@
                             </div>
                             <div class="minicart-content">
                                 <ul class="m-0 clearfix">
+                                    {% for key,value in request.session.cart.items %}
                                     <li class="item d-flex justify-content-center align-items-center">
                                         <a class="product-image rounded-3" href="product-layout1.html">
-                                            <img class="blur-up lazyload" data-src="{% static 'assets/images/products/cart-product-img1.jpg' %}" src="{% static 'assets/images/products/cart-product-img1.jpg' %}" alt="product" title="Product" width="120" height="170" />
+                                            <img class="blur-up lazyload" data-src="{{value.image}} " src="{{value.image}} " alt="product" title="Product" width="120" height="170" />
                                         </a>
                                         <div class="product-details">
-                                            <a class="product-title" href="product-layout1.html">Women Sandals</a>
+                                            <a class="product-title" href="product-layout1.html">{{value.name}}</a>
                                             <div class="variant-cart my-2">Black / XL</div>
                                             <div class="priceRow">
                                                 <div class="product-price">
-                                                    <span class="price">$54.00</span>
+                                                    <span class="price">{{value.price}} </span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="qtyDetail text-center">
                                             <div class="qtyField">
-                                                <a class="qtyBtn minus" href="#;"><i class="icon anm anm-minus-r"></i></a>
-                                                <input type="text" name="quantity" value="1" class="qty">
-                                                <a class="qtyBtn plus" href="#;"><i class="icon anm anm-plus-r"></i></a>
+                                                <a class="qtyBtn minus" href="{% url 'products:item_decrement' value.product_id %}"><i class="icon anm anm-minus-r"></i></a>
+                                                <input type="text" name="quantity" value="{{value.quantity}}" class="qty">
+                                                <a class="qtyBtn plus" href="{% url 'products:item_increment' value.product_id %}"><i class="icon anm anm-plus-r"></i></a>
                                             </div>
                                             <a href="#" class="edit-i remove"><i class="icon anm anm-pencil-ar" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"></i></a>
                                             <a href="#" class="remove"><i class="icon anm anm-times-r" data-bs-toggle="tooltip" data-bs-placement="top" title="Remove"></i></a>
                                         </div>
                                     </li>
-                                    <li class="item d-flex justify-content-center align-items-center">
+                                    {% endfor %}
+                                    {% comment %} <li class="item d-flex justify-content-center align-items-center">
                                         <a class="product-image rounded-3" href="product-layout1.html">
                                             <img class="blur-up lazyload" data-src="assets/images/products/cart-product-img2.jpg" src="assets/images/products/cart-product-img2.jpg" alt="product" title="Product" width="120" height="170" />
                                         </a>
@@ -188,7 +191,7 @@
                                             <a href="#" class="edit-i remove"><i class="icon anm anm-pencil-ar" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"></i></a>
                                             <a href="#" class="remove"><i class="icon anm anm-times-r" data-bs-toggle="tooltip" data-bs-placement="top" title="Remove"></i></a>
                                         </div>
-                                    </li>
+                                    </li> {% endcomment %}
                                 </ul>
                             </div>
                             <div class="minicart-bottom">
@@ -199,8 +202,8 @@
                                 </div>
                                 <div class="subtotal clearfix my-3">
                                     <div class="totalInfo clearfix mb-1 d-none"><span>Shipping:</span><span class="item product-price">$10.00</span></div>
-                                    <div class="totalInfo clearfix mb-1 d-none"><span>Tax:</span><span class="item product-price">$0.00</span></div>
-                                    <div class="totalInfo clearfix"><span>Total:</span><span class="item product-price">$163.00</span></div>
+                                    <div class="totalInfo clearfix mb-1 d-none"><span>Tax:</span><span class="item product-price">$9.00</span></div>
+                                    <div class="totalInfo clearfix"><span>Total:</span><span class="item product-price">{{cart_total_amount}}</span></div>
         
                                 </div>
                                 <div class="agree-check customCheckbox">
@@ -208,8 +211,8 @@
                                     <label for="prTearm"> I agree with the </label><a href="#" class="ms-1 text-link">Terms &amp; conditions</a>
                                 </div>
                                 <div class="minicart-action d-flex mt-3">
-                                    <a href="" class="proceed-to-checkout btn btn-primary w-50 me-1">Check Out</a>
-                                    <a href="" class="cart-btn btn btn-secondary w-50 ms-1">View Cart</a>
+                                    <a href="{% url "products:checkout" %}" class="proceed-to-checkout btn btn-primary w-50 me-1">Check Out</a>
+                                    <a href="{% url "products:cart_detail" %}" class="cart-btn btn btn-secondary w-50 ms-1">View Cart</a>
                                 </div>
                             </div>
                         </div>

@@ -1,4 +1,6 @@
 {% load static %}
+
+{% load cart_tag %}
 <!DOCTYPE html>
 <html class="no-js" lang="en">
     <head>
@@ -135,6 +137,33 @@
                 });
             </script> {% endcomment %}
             <!--End Newsletter Modal Cookies-->
+            <!-- Step checkout JS nav -->
+            <script>
+                $(document).ready(function(){
+                // Add active class to the current list tem (highlight it)
+                var checkoutList = document.getElementById("nav-tabs");
+                var checkoutItems = checkoutList.getElementsByClassName("nav-item");
+                for (var i = 0; i < checkoutItems.length; i++) {
+                checkoutItems[i].addEventListener("click", function() {
+                var current = document.getElementsByClassName("onactive");
+                current[0].className = current[0].className.replace(" onactive", "");
+                this.className += " onactive";
+                });
+                }
+
+                // Nav next/prev
+                $('.btnNext').click(function() {
+                const nextTabLinkEl = $('.nav-tabs .active').closest('li').next('li').find('a')[0];
+                const nextTab = new bootstrap.Tab(nextTabLinkEl);
+                nextTab.show();
+                });
+                $('.btnPrevious').click(function() {
+                const prevTabLinkEl = $('.nav-tabs .active').closest('li').prev('li').find('a')[0];
+                const prevTab = new bootstrap.Tab(prevTabLinkEl);
+                prevTab.show();
+                });
+                });
+            </script>
 
         </div>
         <!--End Page Wrapper-->

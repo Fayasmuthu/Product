@@ -1,6 +1,6 @@
 {% extends "partials/fashion/base.html" %}
 {% load static %}
-
+{% load cart_tag %}
 {% load tz %}  {# Load the timezone template tags #}
 {% get_current_timezone as TIME_ZONE %}  {# Get the current timezone #}
 {% block title %}Product{% endblock %}
@@ -443,9 +443,9 @@
                                                 <div class="product-price m-0"><span class="old-price">${{ product.get_original_price }}</span><span class="price">${{ product.get_sale_price }}</span></div>
                                             </div>
                                             <div class="qtyField">
-                                                <a class="qtyBtn minus" href="#;"><i class="icon anm anm-minus-r"></i></a>
+                                                <a class="qtyBtn minus" href=""><i class="icon anm anm-minus-r"></i></a>
                                                 <input type="text" name="quantity" value="1" class="qty">
-                                                <a class="qtyBtn plus" href="#;"><i class="icon anm anm-plus-r"></i></a>
+                                                <a class="qtyBtn plus" href=""><i class="icon anm anm-plus-r"></i></a>
                                             </div> 
                                         </div>
                                     </div>

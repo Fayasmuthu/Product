@@ -27,7 +27,9 @@ urlpatterns = [
          views.item_decrement, name='item_decrement'),
     path('cart/cart_clear/', views.cart_clear, name='cart_clear'),
     path('cart/cart-detail/',views.cart_detail,name='cart_detail'),
-
+    path('cart/cart-update/', views.update_cart_quantity, name='update_cart_quantity'),
+    path('cart/checkout/', views.checkout, name='checkout'),
+    
 
     # path("about/", TemplateView.as_view(template_name="web/about.html")),
     # path("contact/", views.contact, name="contact"),

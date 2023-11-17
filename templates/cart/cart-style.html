@@ -1,5 +1,6 @@
 {% extends "partials/fashion/base.html" %}
 {% load static %}
+{% load cart_tag %}
 
 {% load tz %}  {# Load the timezone template tags #}
 {% get_current_timezone as TIME_ZONE %}  {# Get the current timezone #}
@@ -36,7 +37,8 @@
                             <!--End Alert msg-->
 
                             <!--Cart Form-->
-                            <form action="#" method="post" class="cart-table table-bottom-brd">
+                            <form action="{% url 'products:update_cart_quantity' %}" method="post" class="cart-table table-bottom-brd">
+                                {% csrf_token %}
                                 <table class="table align-middle">
                                     <thead class="cart-row cart-header small-hide position-relative">
                                         <tr>
@@ -50,9 +52,9 @@
                                     <tbody>
                                         {% for key,value in request.session.cart.items %}
                                         <tr class="cart-row cart-flex position-relative">
-                                            <td class="cart-delete text-center small-hide"><a href="#" class="cart-remove remove-icon position-static" data-bs-toggle="tooltip" data-bs-placement="top" title="Remove to Cart"><i class="icon anm anm-times-r"></i></a></td>
+                                            <td class="cart-delete text-center small-hide"><a href="{% url 'products:item_clear' key %}" class="cart-remove remove-icon position-static" data-bs-toggle="tooltip" data-bs-placement="top" title="Remove to Cart"><i class="icon anm anm-times-r"></i></a></td>
                                             <td class="cart-image cart-flex-item">
-                                                <a href="product-layout1.html"><img class="cart-image rounded-0 blur-up lazyload" data-src="{% static 'assets/images/products/product1-120x170.jpg' %}" src="{% static 'assets/images/products/product1-120x170.jpg' %}" alt="Sunset Sleep Scarf Top" width="120" height="170" /></a>
+                                                <a href="product-layout1.html"><img class="cart-image rounded-0 blur-up lazyload" data-src="{{value.image}}" src="{{value.image}}" alt="Sunset Sleep Scarf Top" width="120" height="170" /></a>
                                             </td>
                                             <td class="cart-meta small-text-left cart-flex-item">
                                                 <div class="list-view-item-title">
@@ -66,63 +68,32 @@
                                                 </div>
                                             </td>
                                             <td class="cart-price cart-flex-item text-center small-hide">
-                                                <span class="money">$99.00</span>
+                                                <span class="money">${{value.price}}</span>
                                             </td>
                                             <td class="cart-update-wrapper cart-flex-item text-end text-md-center">
                                                 <div class="cart-qty d-flex justify-content-end justify-content-md-center">
                                                     <div class="qtyField">
-                                                        <a class="qtyBtn minus" href="#;"><i class="icon anm anm-minus-r"></i></a>
-                                                        <input class="cart-qty-input qty" type="text" name="updates[]" value="1" pattern="[0-9]*" />
-                                                        <a class="qtyBtn plus" href="#;"><i class="icon anm anm-plus-r"></i></a>
+                                                        <a class="qtyBtn minus" href="{% url 'products:item_decrement' value.product_id %}"><i class="icon anm anm-minus-r"></i></a>
+                                                        <input class="cart-qty-input qty" type="text" name="updates[]" value="{{value.quantity}}" pattern="[0-9]*" />
+                                                        <a class="qtyBtn plus" href="{% url 'products:item_increment' value.product_id %}"><i class="icon anm anm-plus-r"></i></a>
                                                     </div>
                                                 </div>
                                                 <a href="#" title="Remove" class="removeMb d-md-none d-inline-block text-decoration-underline mt-2 me-3">Remove</a>
                                             </td>
                                             <td class="cart-price cart-flex-item text-center small-hide">
-                                                <span class="money fw-500">$198.00</span>
+                                                <span class="money fw-500">$ {{ value.price|multiply:value.quantity }}</span>
                                             </td>
                                         </tr>
                                         {% endfor %}
-                                        <tr class="cart-row cart-flex position-relative">
-                                            <td class="cart-delete text-center small-hide"><a href="#" class="cart-remove remove-icon position-static" data-bs-toggle="tooltip" data-bs-placement="top" title="Remove to Cart"><i class="icon anm anm-times-r"></i></a></td>
-                                            <td class="cart-image cart-flex-item">
-                                                <a href="product-layout1.html" ><img class="cart-image rounded-0 blur-up lazyload" data-src="{% static 'assets/images/products/product2-120x170.jpg' %}" src="{% static 'assets/images/products/product2-120x170.jpg' %}" alt="Sunset Sleep Scarf Top" width="120" height="170" /></a>
-                                            </td>
-                                            <td class="cart-meta small-text-left cart-flex-item">
-                                                <div class="list-view-item-title">
-                                                    <a href="product-layout1.html">Cuff Beanie Cap</a>
-                                                </div>
-                                                <div class="cart-meta-text">
-                                                    Color: Black<br>Size: Small<br>Qty: 1
-                                                </div>
-                                                <div class="cart-price d-md-none">
-                                                    <span class="money fw-500">$128.00</span>
-                                                </div>
-                                            </td>
-                                            <td class="cart-price cart-flex-item text-center small-hide">
-                                                <span class="money">$128.00</span>
-                                            </td>
-                                            <td class="cart-update-wrapper cart-flex-item text-end text-md-center">
-                                                <div class="cart-qty d-flex justify-content-end justify-content-md-center">
-                                                    <div class="qtyField">
-                                                        <a class="qtyBtn minus" href="#;"><i class="icon anm anm-minus-r"></i></a>
-                                                        <input class="cart-qty-input qty" type="text" name="updates[]" value="1" pattern="[0-9]*" />
-                                                        <a class="qtyBtn plus" href="#;"><i class="icon anm anm-plus-r"></i></a>
-                                                    </div>
-                                                </div>
-                                                <a href="#" title="Remove" class="removeMb d-md-none d-inline-block text-decoration-underline mt-2 me-3">Remove</a>
-                                            </td>
-                                            <td class="cart-price cart-flex-item text-center small-hide">
-                                                <span class="money fw-500">$128.00</span>
-                                            </td>
-                                        </tr>
+                                        
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td colspan="3" class="text-start"><a href="#" class="btn btn-outline-secondary btn-sm cart-continue"><i class="icon anm anm-angle-left-r me-2 d-none"></i> Continue shopping</a></td>
+                                            <td colspan="3" class="text-start"><a href="{% url "products:products" %}" class="btn btn-outline-secondary btn-sm cart-continue"><i class="icon anm anm-angle-left-r me-2 d-none"></i> Continue shopping</a></td>
                                             <td colspan="3" class="text-end">
-                                                <button type="submit" name="clear" class="btn btn-outline-secondary btn-sm small-hide"><i class="icon anm anm-times-r me-2 d-none"></i> Clear Shoping Cart</button>
-                                                <button type="submit" name="update" class="btn btn-secondary btn-sm cart-continue ms-2"><i class="icon anm anm-sync-ar me-2 d-none"></i> Update Cart</button>
+                                                <button type="submit" name="clear" class="btn btn-outline-secondary btn-sm small-hide d-none"><i class="icon anm anm-times-r me-2 "></i> Clear Shoping Cart</button>
+                                                <a href="{% url 'products:cart_clear' %}" name="clear" class="btn btn-outline-secondary btn-sm small-hide"><i class="icon anm anm-times-r me-2 "></i>Clear Shoping Cart</a>
+                                                <button type="submit" name="update" class="btn btn-secondary btn-sm cart-continue ms-2"><i class="icon anm anm-sync-ar me-2"></i> Update Cart</button>
                                             </td>
                                         </tr>
                                     </tfoot>
@@ -468,7 +439,7 @@
                                 <div class="cart-order-detail cart-col">
                                     <div class="row g-0 border-bottom pb-2">
                                         <span class="col-6 col-sm-6 cart-subtotal-title"><strong>Subtotal</strong></span>
-                                        <span class="col-6 col-sm-6 cart-subtotal-title cart-subtotal text-end"><span class="money">$226.00</span></span>
+                                        <span class="col-6 col-sm-6 cart-subtotal-title cart-subtotal text-end"><span class="money">${{cart_total_amount}}</span></span>
                                     </div>
                                     <div class="row g-0 border-bottom py-2">
                                         <span class="col-6 col-sm-6 cart-subtotal-title"><strong>Coupon Discount</strong></span>
@@ -484,7 +455,7 @@
                                     </div>
                                     <div class="row g-0 pt-2">
                                         <span class="col-6 col-sm-6 cart-subtotal-title fs-6"><strong>Total</strong></span>
-                                        <span class="col-6 col-sm-6 cart-subtotal-title fs-5 cart-subtotal text-end text-primary"><b class="money">$311.00</b></span>
+                                        <span class="col-6 col-sm-6 cart-subtotal-title fs-5 cart-subtotal text-end text-primary"><b class="money">${{cart_total_amount|add:-25|add:10}}</b></span>
                                     </div>
 
                                     <p class="cart-shipping mt-3">Shipping &amp; taxes calculated at checkout</p>
@@ -493,7 +464,7 @@
                                         <input type="checkbox" value="allen-vela" id="cart-tearm">
                                         <label for="cart-tearm">I agree with the terms and conditions</label>
                                     </div>
-                                    <a href="checkout-style1.html" id="cartCheckout" class="btn btn-lg my-4 checkout w-100">Proceed To Checkout</a>
+                                    <a href="{% url "products:checkout" %}" id="cartCheckout" class="btn btn-lg my-4 checkout w-100">Proceed To Checkout</a>
                                     <div class="paymnet-img text-center"><img src="{% static 'assets/images/icons/safepayment.png' %}" alt="Payment" width="299" height="28" /></div>
                                 </div>                               
                             </div>

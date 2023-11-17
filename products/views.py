@@ -104,7 +104,7 @@ def shop(request):
     # #_________________-END SEARCH-_________________________
 
     #__________________-PAGINATION-_______________________
-    result_pagination = Paginator(products,1)
+    result_pagination = Paginator(products,2)
     page_number=request.GET.get('page')
     result=result_pagination.get_page(page_number)
     total_result=result.paginator.num_pages
@@ -219,8 +219,9 @@ def register(request):
 def cart_add(request, id):
     cart = Cart(request)
     product = Product1.objects.get(id=id)
-    sale_price = product.get_sale_price()
-    cart.add(product=product,price=sale_price)
+    # sale_price = product.get_sale_price()
+    # print('get_sale_price=',sale_price)
+    cart.add(product=product)
     
 
     return redirect("products:products")
@@ -238,10 +239,7 @@ def item_clear(request, id):
 def item_increment(request, id):
     cart = Cart(request)
     product = Product1.objects.get(id=id)
-    available_size = product.available_sizes.first()
-    
-    if available_size:
-        cart.add(product=product, price=available_size.price)  # Use the price from available_size
+    cart.add(product=product)  # Use the price from available_size
 
     return redirect("products:cart_detail")
 
@@ -260,12 +258,24 @@ def cart_clear(request):
     cart.clear()
     return redirect("products:cart_detail")
 
+def update_cart_quantity(request):
+    if request.method == 'post':
+        product_id = request.POST.get('product_id')
+        new_quantity = int(request.POST.get('new_quantity'))
+        
+        cart = Cart(request)
+        cart.update_quantity(product_id, new_quantity)
+        
+    return redirect('products:cart_detail') 
 
 # @login_required(login_url="/users/login")
 def cart_detail(request):
  
     return render(request, 'cart/cart-style.html')
 
+def checkout(request):
+
+    return render(request, 'cart/checkout-style2.html')
 
 def myaccount(request):
     return render(request,'account/my-account.html')
