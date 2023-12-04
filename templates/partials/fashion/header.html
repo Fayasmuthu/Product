@@ -1,266 +1,342 @@
 {% load static %}
-<!--Header-->
+<!-- Header -->
 <header class="header d-flex align-items-center header-1 header-fixed">
-    <div class="container">        
-        <div class="row">
-            <!--Logo-->
-            <div class="logo col-5 col-sm-3 col-md-3 col-lg-2 align-self-center">
-                <a class="logoImg" href="index-2.html"><img src="{% static 'assets/images/logo.png' %}" alt="Hema Multipurpose Html Template" title="Hema Multipurpose Html Template" width="149" height="39" /></a>
-            </div>
-            <!--End Logo-->
-            <!--Menu-->
-            <div class="col-1 col-sm-1 col-md-1 col-lg-8 align-self-center d-menu-col">
-                <nav class="navigation" id="AccessibleNav">
-                    <ul id="siteNav" class="site-nav medium center">
-                        <li class="lvl1 parent dropdown"><a href="{% url "products:index" %}">Home 
-                           
-                        </a>
-
-                        </li>
-                        <li class="lvl1 parent megamenu"><a href="{% url "products:products" %}">Product</a>
-                           
-                        </li>
-                        {% comment %} <li class="lvl1 parent megamenu"><a href="{% url "products:products_details" %}">Products-Details </a></li> {% endcomment %}
-                        
-                        <li class="lvl1 parent dropdown"><a href="#;">Page</a>
-                          <ul class="dropdown">
-                                <li><a href="{% url "products:category" %}" class="site-nav">Category</a></li> 
-                                <li><a href="{% url "products:subcategory" %}" class="site-nav">subcategory</a></li> 
-                                <li><a href="{{ product.get_absolute_url}}">Products-Details </a></li>
-                                <li><a href="{% url "products:cart_detail" %}">Cart </a></li>
-                            </ul>
-                        </li>
+  <div class="container">
+    <div class="row">
+      <!-- Logo -->
+      <div class="logo col-5 col-sm-3 col-md-3 col-lg-2 align-self-center">
+        <a class="logoImg" href="index-2.html"><img src="{% static 'assets/images/logo.png' %}" alt="Hema" title="Hema" width="149" height="39" /></a>
+      </div>
+      <!-- End Logo -->
+      <!-- Menu -->
+      <div class="col-1 col-sm-1 col-md-1 col-lg-8 align-self-center d-menu-col">
+        <nav class="navigation" id="AccessibleNav">
+          <ul id="siteNav" class="site-nav medium center">
+            <li class="lvl1 parent dropdown">
+              <a href="{% url 'products:index' %}">Home</a>
+            </li>
+            <li class="lvl1 parent dropdown">
+              <a href="javascript:void(0)">Profile</a>
+            </li> 
+            <li class="lvl1 parent megamenu">
+              <a href="{% url 'products:products' %}">Shop</a>
+            </li>
+            <li class="lvl1 parent megamenu">
+              <a href="javascript:void(0)">Updates</a>
+            </li>
+            <li class="lvl1 parent dropdown">
+              <a href="javascript:void(0)">Awards</a>
+            </li>
+            <li class="lvl1 parent dropdown">
+              <a href="javascript:void(0)">contact</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <!-- End Menu -->
+      <!-- Right Icon -->
+      <div class="col-7 col-sm-9 col-md-9 col-lg-2 align-self-center icons-col text-right">
+        <!-- Search -->
+        <div class="search-parent iconset">
+          <div class="site-search" title="Search">
+            <a href="#;" class="search-icon clr-none" data-bs-toggle="offcanvas" data-bs-target="#search-drawer"><i class="hdr-icon icon anm anm-search-l"></i></a>
+          </div>
+          <div class="search-drawer offcanvas offcanvas-top" tabindex="-1" id="search-drawer">
+            <div class="container">
+              <div class="search-header d-flex-center justify-content-between mb-3">
+                <h3 class="title m-0">What are you looking for?</h3>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              </div>
+              <div class="search-body">
+                <form class="form minisearch" id="header-search" action="#" method="get">
+                  <!-- Search Field -->
+                  <div class="d-flex searchField">
+                    <div class="search-category">
+                      <select class="rgsearch-category rounded-end-0">
+                        <option value="0">All Categories</option>
+                        <option value="1">- All</option>
+                        <option value="2">- Fashion</option>
+                        <option value="3">- Shoes</option>
+                        <option value="4">- Electronic</option>
+                        <option value="5">- Jewelry</option>
+                        <option value="6">- Vegetables</option>
+                        <option value="7">- Furniture</option>
+                        <option value="8">- Accessories</option>
+                      </select>
+                    </div>
+                    <div class="input-box d-flex fl-1">
+                      <input type="text" class="input-text border-start-0 border-end-0" placeholder="Search for products..." value="" />
+                      <button type="submit" class="action search d-flex-justify-center btn rounded-start-0"><i class="icon anm anm-search-l"></i></button>
+                    </div>
+                  </div>
+                  <!-- End Search Field -->
+                  <!-- Search popular -->
+                  <div class="popular-searches d-flex-justify-center mt-3">
+                    <span class="title fw-600">Trending Now:</span>
+                    <div class="d-flex-wrap searches-items">
+                      <a class="text-link ms-2" href="javascript:void(0)">T-Shirt,</a>
+                      <a class="text-link ms-2" href="javascript:void(0)">Shoes,</a>
+                      <a class="text-link ms-2" href="javascript:void(0)">Bags</a>
+                    </div>
+                  </div>
+                  <!-- End Search popular -->
+                  <!-- Search products -->
+                  <div class="search-products">
+                    <ul class="items g-2 g-md-3 row row-cols-lg-4 row-cols-md-3 row-cols-sm-2">
+                      <li class="item empty w-100 text-center text-muted d-none">You don't have any items in your search.</li>
+                      <li class="item">
+                        <div class="mini-list-item d-flex align-items-center w-100 clearfix">
+                          <div class="mini-image text-center">
+                            <a class="item-link" href="javascript:void(0)"><img class="blur-up lazyload" data-src="assets/images/products/product1-120x170.jpg" src="assets/images/products/product1-120x170.jpg" alt="image" title="product" width="120" height="170" /></a>
+                          </div>
+                          <div class="ms-3 details text-left">
+                            <div class="product-name">
+                              <a class="item-title" href="javascript:void(0)">Oxford Cuban Shirt</a>
+                            </div>
+                            <div class="product-price">
+                              <span class="old-price">$114.00</span><span class="price">$99.00</span>
+                            </div>
+                            <div class="product-review d-flex align-items-center justify-content-start">
+                              <i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star-o"></i><i class="icon anm anm-star-o"></i>
+                              <span class="caption hidden ms-2">3 reviews</span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="item">
+                        <div class="mini-list-item d-flex align-items-center w-100 clearfix">
+                          <div class="mini-image text-center">
+                            <a class="item-link" href="javascript:void(0)"><img class="blur-up lazyload" data-src="assets/images/products/product2-120x170.jpg" src="assets/images/products/product2-120x170.jpg" alt="image" title="product" width="120" height="170" /></a>
+                          </div>
+                          <div class="ms-3 details text-left">
+                            <div class="product-name">
+                              <a class="item-title" href="javascript:void(0)">Cuff Beanie Cap</a>
+                            </div>
+                            <div class="product-price">
+                              <span class="price">$128.00</span>
+                            </div>
+                            <div class="product-review d-flex align-items-center justify-content-start">
+                              <i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i>
+                              <span class="caption hidden ms-2">9 reviews</span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="item">
+                        <div class="mini-list-item d-flex align-items-center w-100 clearfix">
+                          <div class="mini-image text-center">
+                            <a class="item-link" href="javascript:void(0)"><img class="blur-up lazyload" data-src="assets/images/products/product3-120x170.jpg" src="assets/images/products/product3-120x170.jpg" alt="image" title="product" width="120" height="170" /></a>
+                          </div>
+                          <div class="ms-3 details text-left">
+                            <div class="product-name">
+                              <a class="item-title" href="javascript:void(0)">Flannel Collar Shirt</a>
+                            </div>
+                            <div class="product-price">
+                              <span class="price">$99.00</span>
+                            </div>
+                            <div class="product-review d-flex align-items-center justify-content-start">
+                              <i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star-o"></i>
+                              <span class="caption hidden ms-2">30 reviews</span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
                     </ul>
-                </nav>
+                  </div>
+                  <!-- End Search products -->
+                </form>
+              </div>
             </div>
-            <!--End Menu-->
-            <!--Right Icon-->
-            <div class="col-7 col-sm-9 col-md-9 col-lg-2 align-self-center icons-col text-right">
-                <!--Search-->
-                <div class="search-parent iconset">
-                    <div class="site-search" title="Search">
-                        <a href="#;" class="search-icon clr-none" data-bs-toggle="offcanvas" data-bs-target="#search-drawer"><i class="hdr-icon icon anm anm-search-l"></i></a>
-                    </div>
-                    <div class="search-drawer offcanvas offcanvas-top" tabindex="-1" id="search-drawer">
-                        <div class="container">
-                            <div class="search-header d-flex-center justify-content-between mb-3">
-                                <h3 class="title m-0">What are you looking for?</h3>
-                                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                            </div>
-                            <div class="search-body">
-                                <form class="form minisearch" id="header-search" action="#" method="get">
-                                    <!--Search Field-->
-                                    <div class="d-flex searchField">
-                                        <div class="search-category">
-                                            <select class="rgsearch-category rounded-end-0">
-                                                <option value="0">All Categories</option>
-                                                <option value="1">- All</option>
-                                                <option value="2">- Fashion</option>
-                                                <option value="3">- Shoes</option>
-                                                <option value="4">- Electronic</option>
-                                                <option value="5">- Jewelry</option>
-                                                <option value="6">- Vegetables</option>
-                                                <option value="7">- Furniture</option>
-                                                <option value="8">- Accessories</option>
-                                            </select>
-                                        </div>
-                                        <div class="input-box d-flex fl-1">
-                                            <input type="text" class="input-text border-start-0 border-end-0" placeholder="Search for products..." value="" />
-                                            <button type="submit" class="action search d-flex-justify-center btn rounded-start-0"><i class="icon anm anm-search-l"></i></button>
-                                        </div>
-                                    </div>
-                                    <!--End Search Field-->
-                                    <!--Search popular-->
-                                    <div class="popular-searches d-flex-justify-center mt-3">
-                                        <span class="title fw-600">Trending Now:</span>
-                                        <div class="d-flex-wrap searches-items">
-                                            <a class="text-link ms-2" href="#">T-Shirt,</a>
-                                            <a class="text-link ms-2" href="#">Shoes,</a>
-                                            <a class="text-link ms-2" href="#">Bags</a>
-                                        </div>
-                                    </div>
-                                    <!--End Search popular-->
-                                    <!--Search products-->
-                                    <div class="search-products">
-                                        <ul class="items g-2 g-md-3 row row-cols-lg-4 row-cols-md-3 row-cols-sm-2">
-                                            <li class="item empty w-100 text-center text-muted d-none">You don't have any items in your search.</li>
-                                            <li class="item">                                                       
-                                                <div class="mini-list-item d-flex align-items-center w-100 clearfix">
-                                                    <div class="mini-image text-center"><a class="item-link" href="product-layout1.html"><img class="blur-up lazyload" data-src="assets/images/products/product1-120x170.jpg" src="assets/images/products/product1-120x170.jpg" alt="image" title="product" width="120" height="170" /></a></div>
-                                                    <div class="ms-3 details text-left">
-                                                        <div class="product-name"><a class="item-title" href="product-layout1.html">Oxford Cuban Shirt</a></div>
-                                                        <div class="product-price"><span class="old-price">$114.00</span><span class="price">$99.00</span></div>
-                                                        <div class="product-review d-flex align-items-center justify-content-start">
-                                                            <i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star-o"></i><i class="icon anm anm-star-o"></i>
-                                                            <span class="caption hidden ms-2">3 reviews</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="item">
-                                                <div class="mini-list-item d-flex align-items-center w-100 clearfix">
-                                                    <div class="mini-image text-center"><a class="item-link" href="product-layout1.html"><img class="blur-up lazyload" data-src="assets/images/products/product2-120x170.jpg" src="assets/images/products/product2-120x170.jpg" alt="image" title="product" width="120" height="170" /></a></div>
-                                                    <div class="ms-3 details text-left">
-                                                        <div class="product-name"><a class="item-title" href="product-layout1.html">Cuff Beanie Cap</a></div>
-                                                        <div class="product-price"><span class="price">$128.00</span></div>
-                                                        <div class="product-review d-flex align-items-center justify-content-start">
-                                                            <i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i>
-                                                            <span class="caption hidden ms-2">9 reviews</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="item">
-                                                <div class="mini-list-item d-flex align-items-center w-100 clearfix">
-                                                    <div class="mini-image text-center"><a class="item-link" href="product-layout1.html"><img class="blur-up lazyload" data-src="assets/images/products/product3-120x170.jpg" src="assets/images/products/product3-120x170.jpg" alt="image" title="product" width="120" height="170" /></a></div>
-                                                    <div class="ms-3 details text-left">
-                                                        <div class="product-name"><a class="item-title" href="product-layout1.html">Flannel Collar Shirt</a></div>
-                                                        <div class="product-price"><span class="price">$99.00</span></div>
-                                                        <div class="product-review d-flex align-items-center justify-content-start">
-                                                            <i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star"></i><i class="icon anm anm-star-o"></i>
-                                                            <span class="caption hidden ms-2">30 reviews</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <!--End Search products-->
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--End Search-->
-                <!--Account-->
-                <div class="account-parent iconset">
-                    <div class="account-link" title="Account"><i class="hdr-icon icon anm anm-user-al"></i></div>
-                    <div id="accountBox">
-                        <div class="customer-links">
-                            <ul class="m-0">
-                                {% if request.user.is_authenticated %}
-                                <li><a href="{% url "auth_logout" %}"><i class="icon anm anm-sign-out-al"></i>Sign out</a></li>
-                               {% else %}
-                                <li><a href="{% url "auth_login" %}"><i class="icon anm anm-sign-in-al"></i>Sign In</a></li>
-                                <li><a href="{% url 'registration_register' %}"><i class="icon anm anm-user-al"></i>Register</a></li>
-                                {% endif %}
-                                <li><a href="{% url "products:myaccount" %}"><i class="icon anm anm-user-cil"></i>My Account</a></li>
-                                <li><a href=""><i class="icon anm anm-heart-l"></i>Wishlist</a></li>
-                                <li><a href=""><i class="icon anm anm-random-r"></i>Compare</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!--End Account-->
-                <!--Wishlist-->
-                <div class="wishlist-link iconset" title="Wishlist"><a href=""><i class="hdr-icon icon anm anm-heart-l"></i><span class="wishlist-count">0</span></a></div>
-                <!--End Wishlist-->
-                <!--Minicart-->
-                <div class="header-cart iconset" title="Cart">
-                    <a href="#;" class="header-cart btn-minicart clr-none" data-bs-toggle="offcanvas" data-bs-target="#minicart-drawer"><i class="hdr-icon icon anm anm-cart-l"></i><span class="cart-count"> {{request.session.cart|length}}</span></a>
-                </div>
-                <!--End Minicart-->
-                <!--Mobile Toggle-->
-                <button type="button" class="iconset pe-0 menu-icon js-mobile-nav-toggle mobile-nav--open d-lg-none" title="Menu"><i class="hdr-icon icon anm anm-times-l"></i><i class="hdr-icon icon anm anm-bars-r"></i></button>
-                <!--End Mobile Toggle-->
-            </div>
-            <!--End Right Icon-->
+          </div>
         </div>
+        <!-- End Search -->
+        <!-- Account -->
+        <div class="account-parent iconset">
+          <div class="account-link" title="Account">
+            <i class="hdr-icon icon anm anm-user-al"></i>
+          </div>
+          <div id="accountBox">
+            <div class="customer-links">
+              <ul class="m-0">
+                {% if request.user.is_authenticated %}
+                  <li>
+                    <a href="{% url 'auth_logout' %}"><i class="icon anm anm-sign-out-al"></i>Sign out</a>
+                  </li>
+                {% else %}
+                  <li>
+                    <a href="{% url 'auth_login' %}"><i class="icon anm anm-sign-in-al"></i>Sign In</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'registration_register' %}"><i class="icon anm anm-user-al"></i>Register</a>
+                  </li>
+                {% endif %}
+                <li>
+                  <a href="{% url 'products:myaccount' %}"><i class="icon anm anm-user-cil"></i>My Account</a>
+                </li>
+                <li>
+                  <a href=""><i class="icon anm anm-heart-l"></i>Wishlist</a>
+                </li>
+                <li>
+                  <a href=""><i class="icon anm anm-random-r"></i>Compare</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- End Account -->
+        <!-- Wishlist -->
+        <div class="wishlist-link iconset" title="Wishlist">
+          <a href=""><i class="hdr-icon icon anm anm-heart-l"></i><span class="wishlist-count">0</span></a>
+        </div>
+        <!-- End Wishlist -->
+        <!-- Minicart -->
+        <div class="header-cart iconset" title="Cart">
+          <a href="#;" class="header-cart btn-minicart clr-none" data-bs-toggle="offcanvas" data-bs-target="#minicart-drawer"><i class="hdr-icon icon anm anm-cart-l"></i><span class="cart-count">{{ request.session.cart|length }}</span></a>
+        </div>
+        <!-- End Minicart -->
+        <!-- Mobile Toggle -->
+        <button type="button" class="iconset pe-0 menu-icon js-mobile-nav-toggle mobile-nav--open d-lg-none" title="Menu"><i class="hdr-icon icon anm anm-times-l"></i><i class="hdr-icon icon anm anm-bars-r"></i></button>
+        <!-- End Mobile Toggle -->
+      </div>
+      <!-- End Right Icon -->
     </div>
+  </div>
 </header>
-<!--End Header-->
-
+<!-- End Header -->
 
 <div class="mobile-nav-wrapper" role="navigation">
-    <div class="closemobileMenu">Close Menu <i class="icon anm anm-times-l"></i></div>
-    <ul id="MobileNav" class="mobile-nav">
-        <li class="lvl1 parent dropdown"><a href="index-2.html">Home <i class="icon anm anm-angle-down-l"></i></a></li>
-        <li class="lvl1 parent megamenu"><a href="#">Shop <i class="icon anm anm-angle-down-l"></i></a>
-            <ul class="lvl-2">
-                <li><a href="#;" class="site-nav">Collection Page <i class="icon anm anm-angle-down-l"></i></a>
-                    <ul class="lvl-3">
-                        <li><a href="collection-style1.html" class="site-nav">Collection style1</a></li>
-                    </ul>
-                </li>
-                <li><a href="#;" class="site-nav">Shop Page <i class="icon anm anm-angle-down-l"></i></a>
-                    <ul class="lvl-3">
-                        <li><a href="shop-grid-view.html" class="site-nav">Shop Grid View</a></li>
-                    </ul>
-                </li>
-                <li><a href="#;" class="site-nav">Shop Other Page <i class="icon anm anm-angle-down-l"></i></a>
-                    <ul class="lvl-3">
-                        <li><a href="wishlist-style1.html" class="site-nav">Wishlist Style1</a></li>
-                    </ul>
-                </li>
-            </ul>
+  <div class="closemobileMenu">
+    Close Menu <i class="icon anm anm-times-l"></i>
+  </div>
+  <ul id="MobileNav" class="mobile-nav">
+    <li class="lvl1 parent dropdown">
+      <a href="index-2.html">Home <i class="icon anm anm-angle-down-l"></i></a>
+    </li>
+    <li class="lvl1 parent megamenu">
+      <a href="#">Shop <i class="icon anm anm-angle-down-l"></i></a>
+      <ul class="lvl-2">
+        <li>
+          <a href="#;" class="site-nav">Collection Page <i class="icon anm anm-angle-down-l"></i></a>
+          <ul class="lvl-3">
+            <li>
+              <a href="collection-style1.html" class="site-nav">Collection style1</a>
+            </li>
+          </ul>
         </li>
-        <li class="lvl1 parent megamenu"><a href="product-layout1.html">Product <i class="icon anm anm-angle-down-l"></i></a>
-            <ul class="lvl-2">
-                <li><a href="product-layout1.html" class="site-nav">Product Page <i class="icon anm anm-angle-down-l"></i></a>
-                    <ul class="lvl-3">
-                        <li><a href="product-layout1.html" class="site-nav">Product Layout1</a></li>
-                    </ul>
-                </li>
-                <li><a href="product-standard.html" class="site-nav">Product Page Types <i class="icon anm anm-angle-down-l"></i></a>
-                    <ul class="lvl-3">
-                        <li><a href="product-standard.html" class="site-nav">Standard Product</a></li>
-                    </ul>
-                </li>
-            </ul>
+        <li>
+          <a href="#;" class="site-nav">Shop Page <i class="icon anm anm-angle-down-l"></i></a>
+          <ul class="lvl-3">
+            <li>
+              <a href="shop-grid-view.html" class="site-nav">Shop Grid View</a>
+            </li>
+          </ul>
         </li>
-        <li class="lvl1 parent dropdown"><a href="#;">Pages <i class="icon anm anm-angle-down-l"></i></a>
-            <ul class="lvl-2">
-                <li><a href="aboutus-style1.html" class="site-nav">About Us <i class="icon anm anm-angle-down-l"></i></a>
-                    <ul class="lvl-3 dropdown">
-                        <li><a href="aboutus-style1.html" class="site-nav">About Us Style1</a></li>
-                    </ul>
-                </li>
-                <li><a href="contact-style1.html" class="site-nav">Contact Us <i class="icon anm anm-angle-down-l"></i></a>
-                    <ul class="lvl-3 dropdown">
-                        <li><a href="contact-style1.html" class="site-nav">Contact Us Style1</a></li>
-                    </ul>
-                </li>
-                <li><a href="my-account.html" class="site-nav">My Account <i class="icon anm anm-angle-down-l"></i></a>
-                    <ul class="lvl-3 dropdown">
-                        <li><a href="my-account.html" class="site-nav">My Account</a></li>
-                    </ul>
-                </li>
-                <li><a href="lookbook-grid.html" class="site-nav">Lookbook <i class="icon anm anm-angle-down-l"></i></a>
-                    <ul class="lvl-3 dropdown">
-                        <li><a href="lookbook-grid.html" class="site-nav">Lookbook Grid</a></li>
-                    </ul>
-                </li>
-                <li><a href="portfolio-page.html" class="site-nav">Portfolio Page</a></li>
-            </ul>
+        <li>
+          <a href="#;" class="site-nav">Shop Other Page <i class="icon anm anm-angle-down-l"></i></a>
+          <ul class="lvl-3">
+            <li>
+              <a href="wishlist-style1.html" class="site-nav">Wishlist Style1</a>
+            </li>
+          </ul>
         </li>
-        <li class="lvl1 parent dropdown"><a href="blog-grid.html">Blog <i class="icon anm anm-angle-down-l"></i></a>
-            <ul class="lvl-2">
-                <li><a href="blog-grid.html" class="site-nav">Grid View</a></li>
-            </ul>
+      </ul>
+    </li>
+    <li class="lvl1 parent megamenu">
+      <a href="javascript:void(0)">Product <i class="icon anm anm-angle-down-l"></i></a>
+      <ul class="lvl-2">
+        <li>
+          <a href="javascript:void(0)" class="site-nav">Product Page <i class="icon anm anm-angle-down-l"></i></a>
+          <ul class="lvl-3">
+            <li>
+              <a href="javascript:void(0)" class="site-nav">Product Layout1</a>
+            </li>
+          </ul>
         </li>
+        <li>
+          <a href="product-standard.html" class="site-nav">Product Page Types <i class="icon anm anm-angle-down-l"></i></a>
+          <ul class="lvl-3">
+            <li>
+              <a href="product-standard.html" class="site-nav">Standard Product</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="lvl1 parent dropdown">
+      <a href="#;">Pages <i class="icon anm anm-angle-down-l"></i></a>
+      <ul class="lvl-2">
+        <li>
+          <a href="aboutus-style1.html" class="site-nav">About Us <i class="icon anm anm-angle-down-l"></i></a>
+          <ul class="lvl-3 dropdown">
+            <li>
+              <a href="aboutus-style1.html" class="site-nav">About Us Style1</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="contact-style1.html" class="site-nav">Contact Us <i class="icon anm anm-angle-down-l"></i></a>
+          <ul class="lvl-3 dropdown">
+            <li>
+              <a href="contact-style1.html" class="site-nav">Contact Us Style1</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="my-account.html" class="site-nav">My Account <i class="icon anm anm-angle-down-l"></i></a>
+          <ul class="lvl-3 dropdown">
+            <li>
+              <a href="my-account.html" class="site-nav">My Account</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="lookbook-grid.html" class="site-nav">Lookbook <i class="icon anm anm-angle-down-l"></i></a>
+          <ul class="lvl-3 dropdown">
+            <li>
+              <a href="lookbook-grid.html" class="site-nav">Lookbook Grid</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="portfolio-page.html" class="site-nav">Portfolio Page</a>
+        </li>
+      </ul>
+    </li>
+    <li class="lvl1 parent dropdown">
+      <a href="blog-grid.html">Blog <i class="icon anm anm-angle-down-l"></i></a>
+      <ul class="lvl-2">
+        <li>
+          <a href="blog-grid.html" class="site-nav">Grid View</a>
+        </li>
+      </ul>
+    </li>
 
-        <li class="mobile-menu-bottom">
-            <div class="mobile-links"> 
-                <ul class="list-inline d-inline-flex flex-column w-100">
-                    <li><a href="login.html" class="d-flex align-items-center"><i class="icon anm anm-sign-in-al"></i>Sign In</a></li>
-                </ul>
-            </div>
-            <div class="mobile-follow mt-2">  
-                <h5 class="title">Follow Us</h5>
-                <ul class="list-inline social-icons d-inline-flex mt-1">
-                    <li class="list-inline-item"><a href="#" title="Facebook"><i class="icon anm anm-facebook-f"></i></a></li>
-                </ul>
-            </div>
-        </li>
-    </ul>
+    <li class="mobile-menu-bottom">
+      <div class="mobile-links">
+        <ul class="list-inline d-inline-flex flex-column w-100">
+          <li>
+            <a href="login.html" class="d-flex align-items-center"><i class="icon anm anm-sign-in-al"></i>Sign In</a>
+          </li>
+        </ul>
+      </div>
+      <div class="mobile-follow mt-2">
+        <h5 class="title">Follow Us</h5>
+        <ul class="list-inline social-icons d-inline-flex mt-1">
+          <li class="list-inline-item">
+            <a href="#" title="Facebook"><i class="icon anm anm-facebook-f"></i></a>
+          </li>
+        </ul>
+      </div>
+    </li>
+  </ul>
 </div>
-<!--End Mobile Menu-->
+<!-- End Mobile Menu -->
 
 {% if messages %}
-{% for message in messages %}
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
-    {{ message }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-{% endfor %}
+  {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {% endfor %}
 {% endif %}

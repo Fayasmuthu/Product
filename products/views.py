@@ -31,10 +31,6 @@ class SubsCategoryView(ListView):
     template_name = 'products/category.html'
     context_object_name = 'subc'
 
-
-
-
-
 # SHOP
 def shop(request):
     categories = Categorys.objects.all()  
@@ -132,6 +128,8 @@ def shop(request):
            
                }
     return render(request, "products/products.html", context)
+
+
 #INDEX
 def home(request):
     categories = Categorys.objects.all()
@@ -215,7 +213,7 @@ def register(request):
     return render(request,"account/register.html")
 
 #______________CART____________
-# @login_required(login_url="login")
+@login_required(login_url="auth_login")
 def cart_add(request, id):
     cart = Cart(request)
     product = Product1.objects.get(id=id)
@@ -226,16 +224,14 @@ def cart_add(request, id):
 
     return redirect("products:products")
 
-
-# @login_required(login_url="login")
+@login_required(login_url="auth_login")
 def item_clear(request, id):
     cart = Cart(request)
     product = Product1.objects.get(id=id)
     cart.remove(product)
     return redirect("products:cart_detail")
 
-
-# @login_required(login_url="login")
+@login_required(login_url="auth_login")
 def item_increment(request, id):
     cart = Cart(request)
     product = Product1.objects.get(id=id)
@@ -243,21 +239,20 @@ def item_increment(request, id):
 
     return redirect("products:cart_detail")
 
-
-# @login_required(login_url="login")
+@login_required(login_url="auth_login")
 def item_decrement(request, id):
     cart = Cart(request)
     product = Product1.objects.get(id=id)
     cart.decrement(product=product)
     return redirect("products:cart_detail")
 
-
-# @login_required(login_url="login")
+@login_required(login_url="auth_login")
 def cart_clear(request):
     cart = Cart(request)
     cart.clear()
     return redirect("products:cart_detail")
 
+@login_required(login_url="auth_login")
 def update_cart_quantity(request):
     if request.method == 'post':
         product_id = request.POST.get('product_id')
@@ -268,15 +263,17 @@ def update_cart_quantity(request):
         
     return redirect('products:cart_detail') 
 
-# @login_required(login_url="/users/login")
+@login_required(login_url="/users/login")
 def cart_detail(request):
  
     return render(request, 'cart/cart-style.html')
 
+@login_required(login_url="auth_login")
 def checkout(request):
 
     return render(request, 'cart/checkout-style2.html')
 
+@login_required(login_url="auth_login")
 def myaccount(request):
     return render(request,'account/my-account.html')
 

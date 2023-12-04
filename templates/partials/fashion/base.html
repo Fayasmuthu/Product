@@ -1,119 +1,43 @@
 {% load static %}
 <!DOCTYPE html>
 <html class="no-js" lang="en">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="description" content="description">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Title Of Site -->
-        <title>{% block title %}Hema eco{% endblock %}</title>
-        <!-- Favicon -->
-        <link rel="shortcut icon" href="{% static 'assets/images/favicon.png' %}" />
-        <!-- Plugins CSS -->
-        <link rel="stylesheet" href="{% static 'assets/css/plugins.css' %}">
-        <!-- Main Style CSS -->
-        <link rel="stylesheet" href="{% static 'assets/css/style-min.css' %}">
-        <link rel="stylesheet" href="{% static 'assets/css/responsive.css' %}">
-    </head>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="description" content="description" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Title Of Site -->
+    <title>
+      {% block title %}
+        Hema eco
+      {% endblock %}
+    </title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.png' %}" />
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/plugins.css' %}" />
+    <!-- Main Style CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/style-min.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/responsive.css' %}" />
+  </head>
 
-    <body class="template-index index-demo1">
-        <!--Page Wrapper-->
-        <div class="page-wrapper">
-            <!--Marquee Text-->
-            {% comment %} <div class="topbar-slider clearfix">
-                <div class="container-fluid">
-                    <div class="marquee-text">
-                        <div class="top-info-bar d-flex">
-                            <div class="flex-item center">
-                                <a href="#">
-                                    <span> <i class="anm anm-worldwide"></i> BUY ONLINE PICK UP IN STORE</span>
-                                    <span> <i class="anm anm-truck-l"></i> FREE WORLDWIDE SHIPPING ON ALL ORDERS ABOVE $100</span>
-                                    <span> <i class="anm anm-redo-ar"></i> EXTENDED RETURN UNTIL 30 DAYS</span>
-                                </a>
-                            </div>
-                            <div class="flex-item center">
-                                <a href="#">
-                                    <span> <i class="anm anm-worldwide"></i> BUY ONLINE PICK UP IN STORE</span>
-                                    <span> <i class="anm anm-truck-l"></i> FREE WORLDWIDE SHIPPING ON ALL ORDERS ABOVE $100</span>
-                                    <span> <i class="anm anm-redo-ar"></i> EXTENDED RETURN UNTIL 30 DAYS</span>
-                                </a>
-                            </div>
-                            <div class="flex-item center">
-                                <a href="#">
-                                    <span> <i class="anm anm-worldwide"></i> BUY ONLINE PICK UP IN STORE</span>
-                                    <span> <i class="anm anm-truck-l"></i> FREE WORLDWIDE SHIPPING ON ALL ORDERS ABOVE $100</span>
-                                    <span> <i class="anm anm-redo-ar"></i> EXTENDED RETURN UNTIL 30 DAYS</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--End Marquee Text--> {% endcomment %}
+  <body class="template-index index-demo1">
+    <!-- Page Wrapper -->
+    <div class="page-wrapper">
+      {% include 'partials/fashion/header.html' %}
 
-            <!--Top Header-->
-            <div class="top-header">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-6 col-sm-6 col-md-3 col-lg-4 text-left">
-                            <i class="icon anm anm-phone-l me-2"></i><a href="tel:401234567890">(+40) 123 456 7890</a>
-                        </div>
-                        <div class="col-12 col-sm-12 col-md-6 col-lg-4 text-center d-none d-md-block">
-                            Free shipping on all orders over $99 <a href="#" class="text-link ms-1">Shop now</a>
-                        </div>
-                        <div class="col-6 col-sm-6 col-md-3 col-lg-4 text-right d-flex align-items-center justify-content-end">
-                            <div class="select-wrap language-picker float-start">
-                                <ul class="default-option">
-                                    <li><div class="option english"><div class="icon"><img src="{% static 'assets/images/flag/english.png' %}" alt="english" width="24" height="24" /></div><span>English</span></div></li>
-                                </ul>
-                                <ul class="select-ul">
-                                    <li><div class="option english"><div class="icon"><img src="{% static 'assets/images/flag/english.png' %}" alt="english" width="24" height="24" /></div><span>English</span></div></li>
-                                    <li><div class="option arabic"><div class="icon"><img src="{% static 'assets/images/flag/arabic.png' %}" alt="arabic" width="24" height="24" /></div><span>Arabic</span></div></li>
-                                    <li><div class="option english"><div class="icon"><img src="{% static 'assets/images/flag/french.png' %}" alt="french" width="24" height="24" /></div><span>French</span></div></li>
-                                </ul>
-                            </div>
-                            <div class="select-wrap currency-picker float-start">
-                                <ul class="default-option">
-                                    <li><div class="option USD"><div class="icon"><img src="{% static 'assets/images/flag/usd.png' %}" alt="usd" width="24" height="24" /></div><span>USD</span></div></li>
-                                </ul>
-                                <ul class="select-ul">
-                                    <li><div class="option USD"><div class="icon"><img src="{% static 'assets/images/flag/usd.png' %}" alt="usd" width="24" height="24" /></div><span>USD</span></div></li>
-                                    <li><div class="option EUR"><div class="icon"><img src="{% static 'assets/images/flag/eur.png' %}" alt="eur" width="24" height="24" /></div><span>EUR</span></div></li>
-                                    <li><div class="option GBP"><div class="icon"><img src="{% static 'assets/images/flag/gbp.png' %}" alt="gbp" width="24" height="24" /></div><span>GBP</span></div></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--End Top Header-->  
-            {% include "partials/fashion/header.html" %}    
+      {% block content %}
 
-            {% block content %}
-            {% endblock  %}
-            
-            {% include "partials/fashion/footer.html" %}
-            
-            
-            
-                        <!-- Including Jquery/Javascript -->
-            <!-- Plugins JS -->
-            <script src="{% static 'assets/js/plugins.js' %}"></script>
-            <!-- Main JS -->
-            <script src="{% static 'assets/js/main.js' %}"></script>
-            <!--Newsletter Modal Cookies-->
-            {% comment %} <script>
-                $(window).ready(function () {
-                    setTimeout(function () {
-                        $('#newsletter_modal').modal("show");
-                    }, 7000);
-                });
-            </script> {% endcomment %}
-            <!--End Newsletter Modal Cookies-->
+      {% endblock %}
 
-        </div>
-        <!--End Page Wrapper-->
-    </body>
+      {% include 'partials/fashion/footer.html' %}
+
+      <!-- Including Jquery/Javascript -->
+      <!-- Plugins JS -->
+      <script src="{% static 'assets/js/plugins.js' %}"></script>
+      <!-- Main JS -->
+      <script src="{% static 'assets/js/main.js' %}"></script>
+    </div>
+    <!-- End Page Wrapper -->
+  </body>
 </html>
-

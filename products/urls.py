@@ -14,9 +14,6 @@ urlpatterns = [
 
     #Account
     path('myaccount',views.myaccount, name="myaccount"),
-#     path('login',views.login, name="login"),
-#      path('logout',views.logout, name="logout"),
-#     path('register',views.register, name="register"),
 
     #Cart
     path('cart/add/<int:id>/', views.cart_add, name='cart_add'),
@@ -29,8 +26,5 @@ urlpatterns = [
     path('cart/cart-detail/',views.cart_detail,name='cart_detail'),
     path('cart/cart-update/', views.update_cart_quantity, name='update_cart_quantity'),
     path('cart/checkout/', views.checkout, name='checkout'),
-    
 
-    # path("about/", TemplateView.as_view(template_name="web/about.html")),
-    # path("contact/", views.contact, name="contact"),
 ]

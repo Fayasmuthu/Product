@@ -11,6 +11,8 @@ from django.contrib.auth.models import User
 
 register = template.Library()
 # Create your models here.
+
+    
 class Category(models.Model):
     title =models.CharField(max_length=100)
     slug = models.SlugField(max_length=100)

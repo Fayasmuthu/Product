@@ -1,52 +1,59 @@
-{% extends "partials/fashion/base.html" %}
+{% extends 'partials/fashion/base.html' %}
 {% load static %}
 
-{% block title %}Category{% endblock %}
+{% block title %}
+  Category
+{% endblock %}
 
 {% block content %}
-
-<div id="page-content"> 
-
-     <!--Page Header-->
-     <div class="page-header text-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-sm-12 col-md-12 col-lg-12 d-flex justify-content-between align-items-center">
-                    <div class="page-title"><h1>Blog Grid</h1></div>
-                    <!--Breadcrumbs-->
-                    <div class="breadcrumbs"><a href="index-2.html" title="Back to the home page">Home</a><span class="title"><i class="icon anm anm-angle-right-l"></i>Blog</span><span class="main-title fw-bold"><i class="icon anm anm-angle-right-l"></i>Blog Grid</span></div>
-                    <!--End Breadcrumbs-->
-                </div>
+  <div id="page-content">
+    <!-- Page Header -->
+    <div class="page-header text-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-sm-12 col-md-12 col-lg-12 d-flex justify-content-between align-items-center">
+            <div class="page-title">
+              <h1>Blog Grid</h1>
             </div>
+            <!-- Breadcrumbs -->
+            <div class="breadcrumbs">
+              <a href="index-2.html" title="Back to the home page">Home</a><span class="title"><i class="icon anm anm-angle-right-l"></i>Blog</span><span class="main-title fw-bold"><i class="icon anm anm-angle-right-l"></i>Blog Grid</span>
+            </div>
+            <!-- End Breadcrumbs -->
+          </div>
         </div>
+      </div>
     </div>
-    <!--End Page Header-->
-                   <!--Blog Grid-->
-                <div class="blog-grid-view">
-                    <div class="row col-row row-cols-lg-3 row-cols-sm-2 row-cols-1 mx-auto">
-                        {% for categ in object_list %}
-                        <div class="blog-item col-item">
-                            <div class="blog-article zoomscal-hov">
-                                <div class="blog-img">
-                                    <a class="featured-image rounded-0 zoom-scal" href="blog-details.html"><img class="rounded-0 blur-up lazyload" data-src="{{categ.image.url}}" src="{{categ.image.url}}" alt="New shop collection our shop" width="740" height="410" /></a>
-                                </div>
-                                <div class="blog-content">
-                                    <h2 class="h3"><a href="blog-details.html">{{categ.title}}</a></h2>
-                                    <ul class="publish-detail d-flex-wrap">                      
-                                        <li><i class="icon anm anm-user-al"></i> <span class="opacity-75 me-1">Posted by:</span> User</li>
-                                        <li><i class="icon anm anm-clock-r"></i> <time datetime="2023-01-02">Jan 02, 2023</time></li>
-                                        <li><i class="icon anm anm-comments-l"></i> <a href="#">2 Comments</a></li>
-                                    </ul>
-                                    <p class="content">Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor</p>
-                                    <a href="blog-details.html" class="btn btn-secondary btn-sm">Read more</a>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-
-                    </div>
-
-                </div>
-
+    <!-- End Page Header -->
+    <!-- Blog Grid -->
+    <div class="blog-grid-view">
+      <div class="row col-row row-cols-lg-3 row-cols-sm-2 row-cols-1 mx-auto">
+        {% for categ in object_list %}
+          <div class="blog-item col-item">
+            <div class="blog-article zoomscal-hov">
+              <div class="blog-img">
+                <a class="featured-image rounded-0 zoom-scal" href="blog-details.html"><img class="rounded-0 blur-up lazyload" data-src="{{ categ.image.url }}" src="{{ categ.image.url }}" alt="New shop collection our shop" width="740" height="410" /></a>
+              </div>
+              <div class="blog-content">
+                <h2 class="h3"><a href="blog-details.html">{{ categ.title }}</a></h2>
+                <ul class="publish-detail d-flex-wrap">
+                  <li>
+                    <i class="icon anm anm-user-al"></i> <span class="opacity-75 me-1">Posted by:</span> User
+                  </li>
+                  <li>
+                    <i class="icon anm anm-clock-r"></i> <time datetime="2023-01-02">Jan 02, 2023</time>
+                  </li>
+                  <li>
+                    <i class="icon anm anm-comments-l"></i> <a href="#">2 Comments</a>
+                  </li>
+                </ul>
+                <p class="content">Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor</p>
+                <a href="blog-details.html" class="btn btn-secondary btn-sm">Read more</a>
+              </div>
             </div>
-{% endblock  %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
